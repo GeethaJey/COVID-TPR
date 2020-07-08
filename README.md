@@ -1,2 +1,2 @@
 # COVID-TPR
-COVID-19 test positivity rates
+Assessing the policy factors that COVID-19 test positivity rates
