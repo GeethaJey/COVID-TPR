@@ -2,20 +2,13 @@ library(ggplot2)
 library(dplyr)
 library(olsrr)
 
-# Load in data
 df <- read.csv("~/Desktop/df.csv")
 
 # Change all necessary variables to categorical 
-df$testing.policy <- as.factor(df$testing.policy)
-df$international.travel.controls <- as.factor(df$international.travel.controls)
-df$restrictions.on.public.gatherings <- as.factor(df$restrictions.on.public.gatherings)
-df$school.closures <- as.factor(df$school.closures)
-df$public.information.campaign <- as.factor(df$public.information.campaign)
-df$income.relief <- as.factor(df$income.relief)
-df$debt.or.contract.relief <- as.factor(df$debt.or.contract.relief)
+ df <- df %>% mutate_if (is.integer, as.factor)
 
 # Summary statistics
-summary(df)
+str(df)
 
 # Data visualization 
 # Scatter plot of test rate and test positivity rate
