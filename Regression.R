@@ -2,13 +2,17 @@ library(ggplot2)
 library(dplyr)
 library(olsrr)
 
+#Canada TPR and policy measure dataset 
 df <- read.csv("~/Desktop/df.csv")
-
+# All policy and demographic measures from DELVE dataset
+X = read.csv(url("https://raw.githubusercontent.com/rs-delve/covid19_datasets/master/dataset/combined_dataset_latest.csv"))
 # Change all necessary variables to categorical 
  df <- df %>% mutate_if (is.integer, as.factor)
+ X <- X %>% mutate_at (vars(matches("npi")), as.factor)
 
 # Summary statistics
 str(df)
+str(X)
 
 # Data visualization 
 # Scatter plot of test rate and test positivity rate
