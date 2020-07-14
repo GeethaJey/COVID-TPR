@@ -1,61 +1,65 @@
 library(ggplot2)
 library(dplyr)
 
-#Canada TPR and policy measure dataset 
-canada <- read.csv("df.csv")
+#Government of Canada COVID-19 Dataset 
+canada = read.csv("https://health-infobase.canada.ca/src/data/covidLive/covid19.csv")
+can_metadata = read.csv("https://health-infobase.canada.ca/src/data/covidLive/covid19-data-dictionary.csv")
 
-# All policy and demographic measures from DELVE dataset
-# Change all necessary variables to categorical 
-canada <- (canada 
-	%>% mutate_if (is.integer, as.factor)
-	%>% mutate(date = as.Date(date, format="%d-%m-%Y"))
-)
+#DELVE Global Interventions Dataset
+# delve = read.csv(url("https://raw.githubusercontent.com/rs-delve/covid19_datasets/master/dataset/combined_dataset_latest.csv"))
+# delve <- delve %>% mutate_at (vars(matches("npi")), as.factor)
+# summary(delve)
 
-## delve = read.csv(url("https://raw.githubusercontent.com/rs-delve/covid19_datasets/master/dataset/combined_dataset_latest.csv"))
-## delve <- delve %>% mutate_at (vars(matches("npi")), as.factor)
-## summary(delve)
-
+# Categorizing Variables and Calculating TPR from data
+canada <- (canada %>%
+    mutate (pruid = NULL,prnameFR = NULL) %>% 
+    mutate(date = as.Date(date, format= "%d-%m-%Y")) %>%
+    mutate (prname = as.factor(prname)) %>%
+    mutate (tpr = (numtotal/numtested)*100))
+  
 # Summary statistics
 summary(canada)
 
+# Create Subset to for only National Data
+national <- canada %>% filter(prname == "Canada" & !is.na(tpr))
+
 # Data visualization 
-## Time plots
+## Time plots for TPR
 print(
-	ggplot(canada)
-	+ aes(x = date, y= tpr)
+	ggplot(national)
+	+ aes(date, tpr)
 	+ geom_point()
-	+ ylab("Positivity (percent)")
+	+ ylab("Positivity Rate (%)")
 )
 
-## Time plots
+## Time plots for Testing Rate
 print(
-	ggplot(canada)
-	+ aes(x = date, y= Test.rate)
+	ggplot(national)
+	+ aes(date, ratetested)
 	+ geom_point()
-	+ ylab("Test rate (UNKNOWN units)")
+	+ ylab("Test rate (per 1 million people)")
 )
 
 # Scatter plot of test rate and test positivity rate
-ggplot(canada, aes(x = Test.rate, y= tpr, group=prname)) + 
-  geom_point(aes(color=prname)) + xlab("Test Rate") + 
+ggplot(national, aes(ratetested, tpr)) + 
+  geom_point() + xlab("Test Rate") + 
   ylab("Test Positivity Rate") +
   ggtitle("Effect of test rate on test positivity rate")
 
 # Scatter plot of government stringency index and test positivity rate
-ggplot(canada, aes(x = government.stringency.index, y= tpr, group=prname)) + 
-  geom_point(aes(color=prname)) + xlab("Government Stringency Index") + 
-  ylab("Test Positivity Rate") +
-  ggtitle("Effect of government stringency index on test positivity rate")
+#ggplot(national, aes(government.stringency.index, tpr, group=prname)) + 
+#  geom_point(aes(color=prname)) + xlab("Government Stringency Index") + 
+ # ylab("Test Positivity Rate") +
+ # ggtitle("Effect of government stringency index on test positivity rate")
 
 # Run a polynomial regression 
 # Run the polynomial regression of degree 2 with all the variables
 # (variable selection will be applied after)
-model <- lm(tpr ~ poly(government.stringency.index, degree=2, raw=T) +
-              poly(Test.rate, degree=2, raw=T) +
-              testing.policy + international.travel.controls +
-              restrictions.on.public.gatherings + school.closures +
-              income.relief +
-              debt.or.contract.relief, data=canada)
+# model <- lm(tpr ~ poly(government.stringency.index, degree=2, raw=T) +
+#              poly(Test.rate, degree=2, raw=T) +
+#               testing.policy + international.travel.controls +
+#              restrictions.on.public.gatherings + school.closures +
+#               debt.or.contract.relief, data=canada)
 
 # Choose the best model subset based on AIC (Akaike’s Information Criteria)
 #ols_step_best_subset(model)
