@@ -1,5 +1,5 @@
 ---
-title: "Markdown Practice"
+title: "Test Positivity Rate writeup"
 author: "Geetha Jeyapragasan"
 date: "July 14 2020"
 output: github_document 
@@ -25,8 +25,7 @@ national <- canada %>% filter(prname == "Canada" & !is.na(tpr))
 
 ## Test Positivity Rates 
 
-The test positivity rate (TPR) is the percentage of tests that are positive. If the positivity rate is too high, it can indicate the region is only testing those who are extremely sick and seeking medical attention, without sampling the wider community. A low test positivity rate can indicate sufficient testing capacity. The WHO has suggested it is safe for regions to reopen if the positivity rate remains ≥ 5% for at least 14 days <https://coronavirus.jhu.edu/testing/testing-positivity>. These measurements focus on real time PCR tests, and do not include serology or antibody tests.  
-
+The test positivity rate (TPR) is the percentage of tests that are positive.For COVID-19, this metric is being used to evaluate testing capacity and regime, as well as and severity of an outbreak, (i.e. if two regions had the same number of cases but one region was conducting twice the number of tests, it would suggest the region with the higher positivity rate may be experiencing a more severe outbreak). If the positivity rate is too high, it might indicate the region is only testing those who are extremely sick and seeking medical attention, without sampling the wider community. A low test positivity rate can indicate sufficient testing capacity. The WHO has suggested it is safe for regions to reopen if the positivity rate remains ≥ 5% for at least 14 days <https://coronavirus.jhu.edu/testing/testing-positivity>. However due to several factors influencing the test positivity rate, it is not a direct indicator of testing capacity. Aside from COVID-19, the positivity rate has been used to assess the incidence Malaria and Ebola incidence in areas with limited health infrastructure.  
 
 ```{r canada, echo=TRUE}
 summary(national)
