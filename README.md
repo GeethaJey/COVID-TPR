@@ -2,8 +2,7 @@
 
 Questions to investigate
 * How can we interpret the test positivity rate of a given region based on the characteristics of the population and interventions within that region? 
-* How can the test positivity rate of a region be used inform decisions regarding testing and measures to contain the outbreak? 
-
+* How can the test positivity rate of a region be used inform decisions regarding testing and interventions? 
 
 Original Questions
 * How we interpret test-positivity rates?
@@ -12,6 +11,8 @@ Original Questions
 Geetha's Questions
 * How does intervention policy affect COVID spread?
 
+How to Answer these questions
+- We can assess the factors affecting the test positivity rate over time. For example, a region's testing protocols determine the requirements to receive a test, and thus can sigificantly affect the test positivity rate if only those with a high probability of having the infection are being tested. 
 
 # Data Sources
 

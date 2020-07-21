@@ -6,9 +6,14 @@ canada = read.csv("https://health-infobase.canada.ca/src/data/covidLive/covid19.
 can_metadata = read.csv("https://health-infobase.canada.ca/src/data/covidLive/covid19-data-dictionary.csv")
 
 #DELVE Global Interventions Dataset
-# delve = read.csv(url("https://raw.githubusercontent.com/rs-delve/covid19_datasets/master/dataset/combined_dataset_latest.csv"))
-# delve <- delve %>% mutate_at (vars(matches("npi")), as.factor)
-# summary(delve)
+delve = read.csv(url("https://raw.githubusercontent.com/rs-delve/covid19_datasets/master/dataset/combined_dataset_latest.csv"))
+ delve <- (delve %>%
+   mutate_at (vars(matches("npi")), as.factor) %>% 
+   mutate(DATE = as.Date(DATE, format= "%Y-%m-%d")) %>%
+   mutate(country_name = as.factor(country_name)) %>%
+   mutate(ISO=NULL)) 
+ 
+summary(delve)
 
 # Categorizing Variables and Calculating TPR from data
 canada <- (canada %>%
