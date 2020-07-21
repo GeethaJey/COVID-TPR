@@ -42,7 +42,7 @@ due to the extremely low testing volume (India is conducting 9.99 tests
 per 1000 people while Australia conducts 136 tests per 1000). Though low
 testing rates did not fully account for the low TPR, a low TPR in
 regions with low testing rates should be interpreted differently than
-regions with a high testing rate.
+regions with a high testing rate. In the state of Virginia, the [antibody test results were combined with the viral PCR tests affecting the TPR](https://www.theatlantic.com/health/archive/2020/05/covid-19-tests-combine-virginia/611620/). With the state using the low TPR to justify the loosening of lockdown restrictions,types of tests included in the metric should be considered when interpreting the value and used for decision making. 
 
 The WHO recommendation for malaria program managers suggest the use of
 TPR instead of incidence rates as a measurement if the following 3
@@ -55,6 +55,7 @@ private-for-profit or informal health care providers are taken into
 account, reporting completeness may be a significant barrier. The TPR is
 less sensitive to these factors, through it can still be distorted and
 misinterpreted.
+
 
 ``` r
 summary(national)

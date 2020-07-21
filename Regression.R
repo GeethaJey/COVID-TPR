@@ -26,6 +26,7 @@ summary(canada)
 
 # Create Subset to for only National Data
 national <- canada %>% filter(prname == "Canada" & !is.na(tpr))
+delve_canada <- delve %>% filter (country_name == "Canada")
 
 # Data visualization 
 ## Time plots for TPR
