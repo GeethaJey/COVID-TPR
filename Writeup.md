@@ -19,8 +19,8 @@ for regions to reopen if the positivity rate remains ≥ 5% for at least
 14 days <https://coronavirus.jhu.edu/testing/testing-positivity>.
 However due to several factors influencing the test positivity rate, it
 is not a direct indicator of testing capacity. The test positivity rate
-has been used as a measure of prevalence for infectious disease
-outbreaks that occur in regions with limited or non-existent health
+has been used in assessing Malaria and Ebola, as a measure of prevalence
+for outbreaks that occur in regions with limited or non-existent health
 surveillance.
 
 ``` r
