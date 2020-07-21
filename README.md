@@ -1,6 +1,6 @@
 # COVID-TPR
 
-Questions to investigate
+Potential Research Questions
 * How can we interpret the test positivity rate of a given region based on the characteristics of the population and interventions within that region? 
 * How can the test positivity rate of a region be used inform decisions regarding testing and interventions? 
 
