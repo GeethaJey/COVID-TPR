@@ -44,6 +44,18 @@ testing rates did not fully account for the low TPR, a low TPR in
 regions with low testing rates should be interpreted differently than
 regions with a high testing rate.
 
+The WHO recommendation for malaria program managers suggest the use of
+TPR instead of incidence rates as a measurement if the following 3
+factors are inconsistent over time: general outpatient attendance,
+testing practices, and reporting completeness. Outpatient attendance may
+be affected by transportation accessibility, user fees, political
+instability, or general behaviour of treating illnesses at home through
+over the counter medication or informal drug distributors. If
+private-for-profit or informal health care providers are taken into
+account, reporting completeness may be a significant barrier. The TPR is
+less sensitive to these factors, through it can still be distorted and
+misinterpreted.
+
 ``` r
 summary(national)
 ```
