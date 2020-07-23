@@ -14,6 +14,12 @@ delve = read.csv(url("https://raw.githubusercontent.com/rs-delve/covid19_dataset
  
 summary(delve)
 
+#Country Effective Reproductive Number Estimates from University of Oxford, Australian National University, and Harvard 
+Rt <- read.csv("https://storage.googleapis.com/static-covid/static/v4/main/r_estimates.csv")
+Rt <- (Rt %>%
+         mutate(Date = as.Date(Date, format= "%Y-%m-%d")))
+summary(Rt)
+
 # Categorizing Variables and Calculating TPR from data
 canada <- (canada %>%
     mutate (pruid = NULL,prnameFR = NULL) %>% 
