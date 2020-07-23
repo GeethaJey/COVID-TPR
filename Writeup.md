@@ -21,28 +21,27 @@ limited or non-existent health surveillance.
 
 ### How the TPR is being used and interpreted
 
-AS OF MAY 12, The WHO is currently advising the test positivity rate
-should be below 5% for at least 14 days before reopening, suggesting a
-TPR between
-[3-12%](https://www.who.int/news-room/commentaries/detail/advice-on-the-use-of-point-of-care-immunodiagnostic-tests-for-covid-19)
-indicates a region is conducting adequate testing. There is a
-significant difference in TPR between countries, with Australia, South
+* As of MAY 12, The WHO is currently advising reopening measures based on the TPR. 
+The test positivity rate should be below 5% for at least 14 days before reopening, suggesting a
+TPR between [3-12%](https://www.who.int/news-room/commentaries/detail/advice-on-the-use-of-point-of-care-immunodiagnostic-tests-for-covid-19) indicates a region is conducting adequate testing. There is a significant difference in TPR between countries, with Australia, South
 Korea, and Uruguay’s positivity rates below 1%, while Argentina and
 Mexico have a 28% and a 66% positivity rate respectively.
 
-The TPR was used to compare the temporal trends and mitigation
+* The TPR was used to compare the temporal trends and mitigation
 strategies of COVID-19 between [Seattle and
 Washington](https://jamanetwork.com/journals/jama/fullarticle/2766035).
 The paper concluded due to the constant testing volume over the study
 period, the TPR trend suggests early and aggressive physical distancing
-measures influenced the course of the outbreak. TPR as an good indicator
+measures influenced the course of the outbreak. 
+* TPR as an good indicator
 of robust testing and outbreak control was [criticized in
 India](https://thewire.in/health/india-covid-19-testing-contradiction-rate)
 due to the extremely low testing volume (India is conducting 9.99 tests
 per 1000 people while Australia conducts 136 tests per 1000). Though low
 testing rates did not fully account for the low TPR, a low TPR in
 regions with low testing rates should be interpreted differently than
-regions with a high testing rate. In the state of Virginia, the [antibody test results were combined with the viral PCR tests affecting the TPR](https://www.theatlantic.com/health/archive/2020/05/covid-19-tests-combine-virginia/611620/). With the state using the low TPR to justify the loosening of lockdown restrictions,types of tests included in the metric should be considered when interpreting the value and used for decision making. 
+regions with a high testing rate. 
+* In the state of Virginia, the [antibody test results were combined with the viral PCR tests affecting the TPR](https://www.theatlantic.com/health/archive/2020/05/covid-19-tests-combine-virginia/611620/). With the state using the low TPR to justify the loosening of lockdown restrictions,types of tests included in the metric should be considered when interpreting the value and used for decision making. 
 
 The WHO recommendation for malaria program managers suggest the use of
 TPR instead of incidence rates as a measurement if the following 3
