@@ -1,5 +1,5 @@
 ---
-title: "Test Positivity Rate writeup"
+title: "Test Positivity Rate Writeup"
 author: "Geetha Jeyapragasan"
 date: "July 14 2020"
 output: github_document 
@@ -23,14 +23,39 @@ canada <- (canada %>%
 national <- canada %>% filter(prname == "Canada" & !is.na(tpr))
 ```
 
-## Test Positivity Rates 
 
-The test positivity rate (TPR) is the percentage of tests that are positive.For COVID-19, this metric is being used to evaluate testing capacity and regime, as well as and severity of an outbreak, (i.e. if two regions had the same number of cases but one region was conducting twice the number of tests, it would suggest the region with the higher positivity rate may be experiencing a more severe outbreak). If the TPR is too high, it might indicate the region is only testing those who are extremely sick and seeking medical attention, without sampling the wider community. A low TPR can indicate sufficient testing capacity. However due to several factors influencing the test positivity rate, it is not a direct indicator of testing capacity. The test positivity rate has been used as a measure of prevalence for outbreaks that occur in regions with limited or non-existent health surveillance. 
+The test positivity rate (TPR) is the percentage of tests that are positive.For COVID-19, this metric is being used to evaluate testing capacity and regime, as well as and severity of an outbreak, (i.e. if two regions had the same number of cases but one region was conducting twice the number of tests, it would suggest the region with the higher positivity rate may be experiencing a more severe outbreak). If the TPR is too high, it might indicate the region is only testing those who are extremely sick and seeking medical attention, without sampling the wider community. A low TPR can indicate sufficient testing capacity. However due to several factors influencing the test positivity rate, it is not a direct indicator of testing capacity. The test positivity rate has been used as a measure of prevalence for outbreaks that occur in regions with limited or non-existent health surveillance.
+
+## Factors that Affect the TPR 
+  1. Type of tests included in metric. Some regions are not transparent in the technologies used for COVID-19 tests, or aggregate PCR and antibody tests making the data less meaningful. 
+  2. Whether the numbers are # of performed tests or # of individuals tested. 
+  3. Whether negative results are included, and how pending results or inconclusive results are reported. 
+  4. Are tests from private labs included? Not all labs report to the central authority, or are specifically not included in the testing data (i.e. US CDC)
+  5. Testing eligibility criteria
+  6. Whether the time period of cumulative counts if daily counts are not being reported.
+
 
 ### How the TPR is being used and interpreted
-AS OF MAY 12, The WHO is currently advising the test positivity rate should be below 5% for at least 14 days before reopening, suggesting a TPR between [3-12%](https://www.who.int/news-room/commentaries/detail/advice-on-the-use-of-point-of-care-immunodiagnostic-tests-for-covid-19) indicates a region is conducting adequate testing. There is a significant difference in TPR between countries, with Australia, South Korea, and Uruguay's positivity rates below 1%, while Argentina and Mexico have a 28% and a 66% positivity rate respectively.
 
-The TPR was used to compare the temporal trends and mitigation strategies of COVID-19 between [Seattle and Washington](https://jamanetwork.com/journals/jama/fullarticle/2766035). The paper concluded due to the constant testing volume over the study period, the TPR trend suggests early and aggressive physical distancing measures influenced the course of the outbreak. TPR as an good indicator of robust testing and outbreak control was [criticized in India](https://thewire.in/health/india-covid-19-testing-contradiction-rate) due to the extremely low testing volume (India is conducting 9.99 tests per 1000 people while Australia conducts 136 tests per 1000). Though low testing rates did not fully account for the low TPR, a low TPR in regions with low testing rates should  be interpreted differently than regions with a high testing rate. 
+* As of May 12, The WHO is currently advising reopening measures based on the TPR. 
+The test positivity rate should be below 5% for at least 14 days before reopening, suggesting a
+TPR between [3-12%](https://www.who.int/news-room/commentaries/detail/advice-on-the-use-of-point-of-care-immunodiagnostic-tests-for-covid-19) indicates a region is conducting adequate testing. 
+* The [CDC opening up plan](https://www.cdc.gov/coronavirus/2019-ncov/downloads/php/CDC-Activities-Initiatives-for-COVID-19-Response.pdf) uses the TPR to assess testing program robustness. The criteria proposes a <20% TPR to enter Phase 1, <15% to enter Phase 2 and <10% to enter Phase 3 (maintaining these values for at least 14 days). 
+** Multi-day increases in TPR with stable or increasing testing suggest potential a potential rebound that should be investigated. 
+* The TPR was used to compare the temporal trends and mitigation
+strategies of COVID-19 between [Seattle and
+Washington](https://jamanetwork.com/journals/jama/fullarticle/2766035) .
+The paper concluded due to the constant testing volume over the study
+period, the TPR trend suggests early and aggressive physical distancing
+measures influenced the course of the outbreak. 
+* TPR as an good indicator of robust testing and outbreak control was [criticized in
+India](https://thewire.in/health/india-covid-19-testing-contradiction-rate)
+due to the extremely low testing volume (India is conducting 9.99 tests
+per 1000 people while Australia conducts 136 tests per 1000). Though low
+testing rates did not fully account for the low TPR, a low TPR in
+regions with low testing rates should be interpreted differently than
+regions with a high testing rate. 
+* The [CDC's initial mixup](https://www.theatlantic.com/health/archive/2020/05/cdc-and-states-are-misreporting-covid-19-test-data-pennsylvania-georgia-texas/611935/) of viral and antibody tests reported together caused positivity rates to appear low. Several states such as Pennsylvania, Texas, Georgia, Vermont, and Virginia have used the aggregated TPR to guide reopening. In the state of Virginia, the antibody test results were combined with the viral PCR tests affecting the TPR. With the state using the low TPR to justify the loosening of lockdown restrictions,types of tests included in the metric should be considered when interpreting the value and used for decision making. Virginia has since separated the tests following this article. 
 
 The WHO recommendation for malaria program managers suggest the use of TPR instead of incidence rates as a measurement if the following 3 factors are inconsistent over time: general outpatient attendance, testing practices, and reporting completeness. Outpatient attendance may be affected by transportation accessibility, user fees, political instability, or general behaviour of treating illnesses at home through over the counter medication or informal drug distributors. If private-for-profit or informal health care providers are taken into account, reporting completeness may be a significant barrier. The TPR is less sensitive to these factors, through it can still be distorted and misinterpreted. 
 
@@ -52,12 +77,21 @@ print(
 
 ### Canada Testing Rates 
 
-```{r pressure, echo=FALSE}
+```{r , echo=FALSE}
 print(
 	ggplot(national)
 	+ aes(date, ratetested)
 	+ geom_point()
 	+ ylab("Test rate (per 1 million people)")
+)
+```
+### Test Rate against TPR
+```{r, echo=FALSE}
+print(
+  ggplot(national, aes(ratetested, tpr)) + 
+  geom_point() + xlab("Test Rate") + 
+  ylab("Test Positivity Rate") +
+  ggtitle("Test rate against test positivity rate")
 )
 ```
 

@@ -5,6 +5,7 @@ Potential Research Questions
     * How can we interpret the TPR in countries with inconsistent general outpatient attendance, testing practices, and reporting completeness (based on WHO suggestions for when to use TPR instead of incidence rates to assess transmission)? 
 * How can the test positivity rate of a region be used inform decisions regarding testing and interventions? 
 * How did the use of TPR as a key metric used for re-opening guidelines affect testing methods and population selected for testing? 
+
 Original Questions
 * How we interpret test-positivity rates?
 * What factors about _testing_ policy affect this interpretation?

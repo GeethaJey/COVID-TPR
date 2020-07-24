@@ -1,5 +1,6 @@
 library(ggplot2)
 library(dplyr)
+library(countrycode)
 
 #Government of Canada COVID-19 Dataset 
 canada = read.csv("https://health-infobase.canada.ca/src/data/covidLive/covid19.csv")
@@ -17,7 +18,9 @@ summary(delve)
 #Country Effective Reproductive Number Estimates from University of Oxford, Australian National University, and Harvard 
 Rt <- read.csv("https://storage.googleapis.com/static-covid/static/v4/main/r_estimates.csv")
 Rt <- (Rt %>%
-         mutate(Date = as.Date(Date, format= "%Y-%m-%d")))
+         mutate(Date = as.Date(Date, format= "%Y-%m-%d")) %>%
+         mutate(Country = countrycode(Rt$Code, "iso2c","country.name")) %>% 
+         mutate(Country =as.factor(Country)))
 summary(Rt)
 
 # Categorizing Variables and Calculating TPR from data
