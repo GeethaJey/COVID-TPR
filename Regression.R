@@ -9,7 +9,7 @@ can_metadata = read.csv("https://health-infobase.canada.ca/src/data/covidLive/co
 #DELVE Global Interventions Dataset
 delve = read.csv(url("https://raw.githubusercontent.com/rs-delve/covid19_datasets/master/dataset/combined_dataset_latest.csv"))
  delve <- (delve %>%
-   mutate(DATE = as.Date(DATE, format= "%Y-%m-%d")) %>%
+   mutate(date = as.Date(DATE, format= "%Y-%m-%d")) %>%
    mutate(country_name = as.factor(country_name)) %>%
    mutate(ISO=NULL)) 
  
@@ -18,8 +18,8 @@ summary(delve)
 #Country Effective Reproductive Number Estimates from University of Oxford, Australian National University, and Harvard 
 Rt <- read.csv("https://storage.googleapis.com/static-covid/static/v4/main/r_estimates.csv")
 Rt <- (Rt %>%
-         mutate(Date = as.Date(Date, format= "%Y-%m-%d")) %>%
-         mutate(Country = countrycode(Rt$Code, "iso2c","country.name")) %>% 
+         mutate(date = as.Date(Date, format= "%Y-%m-%d")) %>%
+         mutate(Country = countrycode(Rt$Code, "iso2c","country.name")) %>% #converting country codes to country names. US states 
          mutate(Country =as.factor(Country)))
 summary(Rt)
 
