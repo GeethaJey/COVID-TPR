@@ -24,9 +24,9 @@ national <- canada %>% filter(prname == "Canada" & !is.na(tpr))
 ```
 
 
-The test positivity rate (TPR) is the percentage of tests that are positive.For COVID-19, this metric is being used to evaluate testing capacity and regime, as well as and severity of an outbreak, (i.e. if two regions had the same number of cases but one region was conducting twice the number of tests, it would suggest the region with the higher positivity rate may be experiencing a more severe outbreak). If the TPR is too high, it might indicate the region is only testing those who are extremely sick and seeking medical attention, without sampling the wider community. A low TPR can indicate sufficient testing capacity. However due to several factors influencing the test positivity rate, it is not a direct indicator of testing capacity. The test positivity rate has been used as a measure of prevalence for outbreaks that occur in regions with limited or non-existent health surveillance.
+For COVID-19, the positivity rate  is  used to as a metric to evaluate testing capacity and regime, as well as and severity of an outbreak. If the TPR is too high, it might indicate the region is only testing those who are extremely sick and seeking medical attention, without sampling the wider community. A low TPR can indicate sufficient testing capacity. However due to several factors influencing the test positivity rate, it is not a direct indicator of testing capacity. The test positivity rate has been used as a measure of prevalence for outbreaks that occur in regions with limited or non-existent health surveillance.
 
-## Factors that Affect the TPR 
+### Factors that Affect the TPR 
   1. Type of tests included in metric. Some regions are not transparent in the technologies used for COVID-19 tests, or aggregate PCR and antibody tests making the data less meaningful. 
   2. Whether the numbers are # of performed tests or # of individuals tested. 
   3. Whether negative results are included, and how pending results or inconclusive results are reported. 
@@ -85,13 +85,13 @@ print(
 	+ ylab("Test rate (per 1 million people)")
 )
 ```
-### Test Rate against TPR
+
+### Cumulative Testing Rate against TPR
 ```{r, echo=FALSE}
 print(
   ggplot(national, aes(ratetested, tpr)) + 
   geom_point() + xlab("Test Rate") + 
-  ylab("Test Positivity Rate") +
-  ggtitle("Test rate against test positivity rate")
+  ylab("Test Positivity Rate") 
 )
 ```
 

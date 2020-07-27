@@ -17,7 +17,7 @@ direct indicator of testing capacity. The test positivity rate has been
 used as a measure of prevalence for outbreaks that occur in regions with
 limited or non-existent health surveillance.
 
-## Factors that Affect the TPR
+### Factors that Affect the TPR
 
 1.  Type of tests included in metric. Some regions are not transparent
     in the technologies used for COVID-19 tests, or aggregate PCR and
@@ -91,61 +91,61 @@ summary(national)
 ```
 
     ##                        prname         date               numconf      
-    ##  Canada                   :135   Min.   :2020-03-11   Min.   :   103  
-    ##  Alberta                  :  0   1st Qu.:2020-04-13   1st Qu.: 26354  
-    ##  British Columbia         :  0   Median :2020-05-17   Median : 76991  
-    ##  Manitoba                 :  0   Mean   :2020-05-17   Mean   : 64765  
-    ##  New Brunswick            :  0   3rd Qu.:2020-06-19   3rd Qu.:100813  
-    ##  Newfoundland and Labrador:  0   Max.   :2020-07-23   Max.   :112659  
+    ##  Canada                   :138   Min.   :2020-03-11   Min.   :   103  
+    ##  Alberta                  :  0   1st Qu.:2020-04-14   1st Qu.: 27376  
+    ##  British Columbia         :  0   Median :2020-05-18   Median : 78581  
+    ##  Manitoba                 :  0   Mean   :2020-05-18   Mean   : 65826  
+    ##  New Brunswick            :  0   3rd Qu.:2020-06-21   3rd Qu.:101551  
+    ##  Newfoundland and Labrador:  0   Max.   :2020-07-26   Max.   :113898  
     ##  (Other)                  :  0                                        
-    ##     numprob        numdeaths         numtotal        numtested      
-    ##  Min.   :  0.0   Min.   :   2.0   Min.   :   103   Min.   :  11023  
-    ##  1st Qu.: 11.0   1st Qu.: 841.5   1st Qu.: 26372   1st Qu.: 446229  
-    ##  Median : 11.0   Median :5782.0   Median : 77002   Median :1300729  
-    ##  Mean   : 22.2   Mean   :4859.2   Mean   : 64788   Mean   :1456374  
-    ##  3rd Qu.: 12.5   3rd Qu.:8378.0   3rd Qu.:100824   3rd Qu.:2361172  
-    ##  Max.   :833.0   Max.   :8874.0   Max.   :112672   Max.   :3697322  
-    ##                                                                     
-    ##    numrecover    percentrecover       ratetested       numtoday     
-    ##  Min.   :  230   Length:135         Min.   :  293   Min.   :   0.0  
-    ##  1st Qu.:26505   Class :character   1st Qu.:11871   1st Qu.: 363.5  
-    ##  Median :48892   Mode  :character   Median :34604   Median : 722.0  
-    ##  Mean   :46448                      Mean   :38744   Mean   : 834.0  
-    ##  3rd Qu.:65850                      3rd Qu.:62815   3rd Qu.:1252.5  
-    ##  Max.   :98519                      Max.   :98361   Max.   :2760.0  
-    ##  NA's   :28                                                         
-    ##   percentoday       ratetotal        ratedeaths     deathstoday    
-    ##  Min.   : 0.000   Min.   :  0.27   Min.   : 0.01   Min.   :  0.00  
-    ##  1st Qu.: 0.415   1st Qu.: 70.16   1st Qu.: 2.24   1st Qu.: 10.00  
-    ##  Median : 1.500   Median :204.85   Median :15.38   Median : 49.00  
-    ##  Mean   : 5.951   Mean   :172.36   Mean   :12.93   Mean   : 65.72  
-    ##  3rd Qu.: 5.635   3rd Qu.:268.23   3rd Qu.:22.29   3rd Qu.:114.50  
-    ##  Max.   :46.230   Max.   :299.75   Max.   :23.61   Max.   :222.00  
-    ##                                                                    
+    ##     numprob      numdeaths         numtotal        numtested      
+    ##  Min.   :  0   Min.   :   2.0   Min.   :   103   Min.   :  11023  
+    ##  1st Qu.: 11   1st Qu.: 929.8   1st Qu.: 27392   1st Qu.: 458171  
+    ##  Median : 11   Median :5877.0   Median : 78592   Median :1331709  
+    ##  Mean   : 22   Mean   :4946.7   Mean   : 65848   Mean   :1506463  
+    ##  3rd Qu.: 13   3rd Qu.:8434.5   3rd Qu.:101562   3rd Qu.:2436949  
+    ##  Max.   :833   Max.   :8890.0   Max.   :113911   Max.   :3801950  
+    ##                                                                   
+    ##    numrecover    percentrecover       ratetested        numtoday     
+    ##  Min.   :  230   Length:138         Min.   :   293   Min.   :   0.0  
+    ##  1st Qu.:27288   Class :character   1st Qu.: 12189   1st Qu.: 356.2  
+    ##  Median :50048   Mode  :character   Median : 35428   Median : 703.0  
+    ##  Mean   :47884                      Mean   : 40077   Mean   : 824.9  
+    ##  3rd Qu.:66931                      3rd Qu.: 64831   3rd Qu.:1245.8  
+    ##  Max.   :99355                      Max.   :101145   Max.   :2760.0  
+    ##  NA's   :28                                                          
+    ##   percentoday        ratetotal        ratedeaths      deathstoday    
+    ##  Min.   : 0.0000   Min.   :  0.27   Min.   : 0.010   Min.   :  0.00  
+    ##  1st Qu.: 0.4025   1st Qu.: 72.88   1st Qu.: 2.473   1st Qu.:  9.00  
+    ##  Median : 1.4600   Median :209.08   Median :15.635   Median : 46.00  
+    ##  Mean   : 5.8293   Mean   :175.18   Mean   :13.160   Mean   : 64.41  
+    ##  3rd Qu.: 5.3725   3rd Qu.:270.19   3rd Qu.:22.438   3rd Qu.:112.75  
+    ##  Max.   :46.2300   Max.   :303.04   Max.   :23.650   Max.   :222.00  
+    ##                                                                      
     ##   percentdeath    testedtoday    recoveredtoday    percentactive  
     ##  Min.   :0.790   Min.   :    0   Min.   :    0.0   Min.   : 3.78  
-    ##  1st Qu.:3.190   1st Qu.:16768   1st Qu.:  367.5   1st Qu.:28.96  
-    ##  Median :7.480   Median :27304   Median :  680.0   Median :42.43  
-    ##  Mean   :5.882   Mean   :27388   Mean   :  973.1   Mean   :52.71  
-    ##  3rd Qu.:8.170   3rd Qu.:37648   3rd Qu.:  908.0   3rd Qu.:83.67  
+    ##  1st Qu.:3.395   1st Qu.:16830   1st Qu.:  356.5   1st Qu.:28.46  
+    ##  Median :7.500   Median :27622   Median :  678.0   Median :42.08  
+    ##  Mean   :5.924   Mean   :27550   Mean   :  954.1   Mean   :51.67  
+    ##  3rd Qu.:8.168   3rd Qu.:37772   3rd Qu.:  897.5   3rd Qu.:83.03  
     ##  Max.   :8.330   Max.   :78091   Max.   :23853.0   Max.   :99.21  
     ##                                  NA's   :28                       
-    ##    numactive       rateactive    numtotal_last14 numdeaths_last14
-    ##  Min.   :  101   Min.   : 0.27   Min.   : 2715   Min.   :  25.0  
-    ##  1st Qu.:15595   1st Qu.:41.48   1st Qu.: 5199   1st Qu.: 260.2  
-    ##  Median :27784   Median :73.91   Median :12468   Median : 850.0  
-    ##  Mean   :23114   Mean   :61.49   Mean   :12503   Mean   :1011.7  
-    ##  3rd Qu.:31700   3rd Qu.:84.33   3rd Qu.:18799   3rd Qu.:1616.0  
-    ##  Max.   :35001   Max.   :93.11   Max.   :24688   Max.   :2311.0  
+    ##    numactive       rateactive    numtotal_last14 ratetotal_last14
+    ##  Min.   :  101   Min.   : 0.27   Min.   : 2715   Min.   : 7.22   
+    ##  1st Qu.:12770   1st Qu.:33.97   1st Qu.: 5226   1st Qu.:13.90   
+    ##  Median :27702   Median :73.69   Median :11855   Median :31.54   
+    ##  Mean   :22732   Mean   :60.48   Mean   :12352   Mean   :32.86   
+    ##  3rd Qu.:31572   3rd Qu.:83.99   3rd Qu.:18768   3rd Qu.:49.93   
+    ##  Max.   :35001   Max.   :93.11   Max.   :24688   Max.   :65.68   
     ##                                  NA's   :13      NA's   :13      
-    ##       tpr       
-    ##  Min.   :0.888  
-    ##  1st Qu.:3.428  
-    ##  Median :4.776  
-    ##  Mean   :4.557  
-    ##  3rd Qu.:5.912  
-    ##  Max.   :6.742  
-    ## 
+    ##  numdeaths_last14 ratedeaths_last14      tpr       
+    ##  Min.   :  25.0   Min.   :0.070     Min.   :0.888  
+    ##  1st Qu.: 257.0   1st Qu.:0.680     1st Qu.:3.355  
+    ##  Median : 818.0   Median :2.180     Median :4.691  
+    ##  Mean   : 990.1   Mean   :2.634     Mean   :4.523  
+    ##  3rd Qu.:1553.0   3rd Qu.:4.130     3rd Qu.:5.903  
+    ##  Max.   :2311.0   Max.   :6.150     Max.   :6.742  
+    ##  NA's   :13       NA's   :13
 
 ### Canada Test Positivity Rate
 
@@ -153,16 +153,8 @@ summary(national)
 
 ### Canada Testing Rates
 
-![](Writeup_files/figure-gfm/pressure-1.png)<!-- --> \#\#\# Test Rate
-against TPR
-
-``` r
-print(
-  ggplot(national, aes(ratetested, tpr)) + 
-  geom_point() + xlab("Test Rate") + 
-  ylab("Test Positivity Rate") +
-  ggtitle("Test rate against test positivity rate")
-)
-```
-
 ![](Writeup_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+
+### Cumulative Testing Rate against TPR
+
+![](Writeup_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
