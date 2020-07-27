@@ -27,12 +27,6 @@ delve = read.csv(url("https://raw.githubusercontent.com/rs-delve/covid19_dataset
    mutate (DATE = NULL, country_name = NULL, iso_3166_2_code = NULL, census_fips_code = NULL) ) 
 summary(delve)
 
-# #OWID
-# owid <- read.csv("https://covid.ourworldindata.org/data/owid-covid-data.csv")
-# owid <- ( owid %>% 
-#           mutate(date = as.Date(date, format= "%Y-%m-%d")) %>%
-#           mutate(country = as.factor(location)))   
-
 
 #Country Effective Reproductive Number Estimates from University of Oxford, Australian National University, and Harvard 
 Rt <- read.csv("https://storage.googleapis.com/static-covid/static/v4/main/r_estimates.csv")
@@ -42,7 +36,6 @@ Rt <- (Rt %>%
          mutate(country =as.factor(country)))
 summary(Rt)
 
-# Categorizing Variables and Calculating TPR from data
 
 
 # Create Subset to for only National Canada Data
