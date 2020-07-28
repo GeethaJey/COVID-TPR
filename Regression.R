@@ -18,6 +18,8 @@ goc <- (goc %>%
 summary(goc)
 
 #DELVE Global Interventions Dataset *transmute function always seems to give me an error 
+##Codebook with variable descriptions https://github.com/rs-delve/covid19_datasets/blob/master/docs/codebook.md
+
 delve = read.csv(url("https://raw.githubusercontent.com/rs-delve/covid19_datasets/master/dataset/combined_dataset_latest.csv"))
  delve <- (delve %>%
    mutate(date = as.Date(DATE, format= "%Y-%m-%d")) %>%
@@ -25,16 +27,11 @@ delve = read.csv(url("https://raw.githubusercontent.com/rs-delve/covid19_dataset
    mutate(ISO=NULL) %>%
    relocate (date, country) %>%
    mutate (DATE = NULL, country_name = NULL, iso_3166_2_code = NULL, census_fips_code = NULL) ) 
-summary(delve)
+
+ summary(delve)
 
 
-#Country Effective Reproductive Number Estimates from University of Oxford, Australian National University, and Harvard 
-Rt <- read.csv("https://storage.googleapis.com/static-covid/static/v4/main/r_estimates.csv")
-Rt <- (Rt %>%
-         mutate(date = as.Date(Date, format= "%Y-%m-%d")) %>%
-         mutate(country = countrycode(Rt$Code, "iso2c","country.name")) %>% #converting country codes to country names. US states not converted 
-         mutate(country =as.factor(country)))
-summary(Rt)
+#Country Effective Reproductive Number Estimates from University of Oxford, Australian National University, and Harvard from http://epidemicforecasting.org/
 
 
 

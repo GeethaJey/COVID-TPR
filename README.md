@@ -22,6 +22,7 @@ Geetha's Questions
 	* [Global Policy Interventions (by country)](https://ourworldindata.org/policy-responses-covid)
 * [DELVE dataset (includes facemasks and contact tracing)](https://rs-delve.github.io/data_software/global-dataset.html)
 * [(Test positivity rates and testing rates in Canada ](https://open.canada.ca/data/en/dataset/261c32ab-4cfd-4f81-9dea-7b64065690dc)  
+* [COVID Tracking Project US data](https://covidtracking.com/data)
 * [US hospital capacity (by state)](https://globalepidemics.org/hospital-capacity/) 
 * [Openness of data sources (measured using Open Data Barometer metrics)](https://opendatabarometer.org/2ndEdition/analysis/rankings.html)
 * [World Bank COVID-19 relevant Datasets (economic data, health and nutrition, population statistics)](https://datacatalog.worldbank.org/search?search_api_views_fulltext_op=AND&f%5B0%5D=field_collection_field%3A2026)

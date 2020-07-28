@@ -63,7 +63,7 @@ The WHO recommendation for malaria program managers suggest the use of TPR inste
 summary(national)
 ```
 
-### Canada Test Positivity Rate
+### Canada Cumulative Test Positivity Rate
 ```{r tpr, echo=FALSE}
 print(
 	ggplot(national)
