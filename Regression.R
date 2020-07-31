@@ -3,7 +3,17 @@ library(dplyr)
 library(countrycode)
 
 # Data visualization 
-## Time plots for Global Cumulative TPR
+
+## Daily TPR
+
+print(
+  ggplot(global)
+  + aes(date, daily.tpr, colour = continent)
+  + geom_point()
+  + ylab("Daily Positivity Rate (%)")
+  + xlab("Date")
+)
+##Global Cumulative TPR
 print(
 	ggplot(global)
 	+ aes(date, cumulative.tpr, colour = continent)
@@ -31,3 +41,5 @@ plot(model1)
 model2 <- lm(cumulative.tpr ~ npi_testing_policy + tests_total_per_thousand, data = global)
 summary(model2)
 plot(model2)
+
+

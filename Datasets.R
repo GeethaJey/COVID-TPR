@@ -1,6 +1,8 @@
 library(ggplot2)
 library(dplyr)
 library(countrycode)
+library(gsheet)
+library(tidyr)
 
 #GLOBAL DATASETS
 #####################
@@ -11,8 +13,8 @@ owid <- (owid %>%
         mutate(location = as.factor(location), continent = as.factor(continent), iso_code = as.factor(iso_code), date = (as.Date(date, format= "%Y-%m-%d")),tests_units = as.factor(tests_units)) %>% 
         mutate(cumulative.tpr = (total_cases/total_tests)*100, daily.tpr = (new_cases/new_tests)*100) %>% 
         select (!(total_cases:stringency_index)) %>%         
-        filter(!is.na(daily.tpr)) %>% 
-        relocate(daily.tpr,cumulative.tpr) %>% 
+        filter(!is.na(daily.tpr), daily.tpr <= 200) %>%
+        filter(!is.na(cumulative.tpr)) %>% 
         rename(country = location))
         
 summary(owid)
@@ -28,44 +30,65 @@ summary(delve)
 
 #Country Effective Reproductive Number Estimates from University of Oxford, Australian National University, and Harvard from http://epidemicforecasting.org/
 Rt <- read.csv("https://storage.googleapis.com/static-covid/static/v4/main/r_estimates.csv")
-Rt <- (Rt %>%
+Rtcountry <- (Rt %>%
          mutate(Date = as.Date(Date, format= "%Y-%m-%d"), X = NULL) %>%
          filter(!grepl ("^US-", Code)) %>% 
          mutate(country = countrycode(Code, "iso2c","country.name"), country =as.factor(country)) %>% #converting country codes to country names. US states not converted 
          rename(date=Date))
-summary(Rt)
+summary(Rtcountry)
+
+#Open Data Barometer (Openness of data measurement)
+odb <- read.csv("https://opendatabarometer.org/assets/data/ODB-2014-Rankings.csv")
+odb <- odb %>% select ((ISO3:ODB.Scaled)) 
+summary(odb)
 
 # Putting together global Dataset
 global <- inner_join(owid, delve)
-global <- inner_join(global,Rt) 
-                
+global <- inner_join(global,Rtcountry) 
+global <- inner_join (global, odb, by = c("iso_code" = "ISO3") )   
+
 summary(global)
 
 # US DATA 
 ############
 
 #Covid-Tracking project
-US_data <- read.csv("https://s3-us-west-1.amazonaws.com/starschema.covid/CT_US_COVID_TESTS.csv")
+USstate_data <- read.csv("https://covidtracking.com/api/v1/states/daily.csv")
+US_hospital_cap <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1XUVyZF3X_4m72ztFnXZFvDKn5Yys1aKgu2Zmefd7wVo/edit?usp=sharing")
+USstate_data <- (USstate_data %>% 
+                   select(-c(hash, lastUpdateEt, dateModified , checkTimeEt, dateChecked, dateModified, hospitalized, negativeIncrease, posNeg, fips, commercialScore, negativeRegularScore, negativeScore, positiveScore, score, grade)) %>% 
+                   mutate(state = as.factor(state), daily.tpr = (positive/totalTestResults)*100, cumulative.tpr = cumsum(as.numeric(positive))/cumsum(as.numeric(totalTestResults))) %>% 
+                   mutate(date = as.character(date)) %>% 
+                   mutate(date = as.Date(date, format("%Y%m%d"))))
 
 
+Rtstate <-  (Rt %>%
+              mutate(Date = as.Date(Date, format= "%Y-%m-%d"), X = NULL) %>%
+              filter(grepl ("^US-", Code)) %>%
+              separate(Code, c("country","state")) %>% 
+              mutate (state = as.factor(state), country = as.factor(country)) %>% 
+              rename(date = Date))
+summary(Rtstate)
+
+USstate_data <- inner_join(USstate_data, Rtstate)
 #Canada Data
+###############3
 #Government of Canada (GoC) COVID-19 Dataset 
-goc = read.csv("https://health-infobase.canada.ca/src/data/covidLive/covid19.csv")
-goc_metadata = read.csv("https://health-infobase.canada.ca/src/data/covidLive/covid19-data-dictionary.csv")
-
-goc <- (goc %>%
-                mutate (pruid = NULL,prnameFR = NULL) %>% 
-                mutate(date = as.Date(date, format= "%d-%m-%Y")) %>%
-                mutate (prname = as.factor(prname)) %>%
-                relocate(country) %>%
-                mutate (cumulative.tpr = (numconf/numtested)*100))
-
-summary(goc)
-# Create Subset to for only National Canada Data
-national <- inner_join(goc, delve)
-national <- inner_join(national, Rt)
-national <- (national %>% 
-                     filter(country == "Canada" & !is.na(tpr)) %>%
-                     mutate(npi_masks = as.factor(npi_masks)) %>% 
-                     mutate(npi_testing_policy = as.factor(npi_testing_policy)) %>% 
-                     mutate(Code = NULL, X = NULL, Date = NULL))
+# goc = read.csv("https://health-infobase.canada.ca/src/data/covidLive/covid19.csv")
+# goc_metadata = read.csv("https://health-infobase.canada.ca/src/data/covidLive/covid19-data-dictionary.csv")
+# 
+# goc <- (goc %>%
+#                 mutate (pruid = NULL,prnameFR = NULL) %>% 
+#                 mutate(date = as.Date(date, format= "%d-%m-%Y")) %>%
+#                 mutate (prname = as.factor(prname)) %>%
+#                 mutate (cumulative.tpr = (numconf/numtested)*100))
+# 
+# summary(goc)
+# # Create Subset to for only National Canada Data
+# national <- inner_join(goc, delve, by = c("prname" = "country"))
+# national <- inner_join(national, Rt)
+# national <- (national %>% 
+#                      filter(prname == "Canada" & !is.na(tpr)) %>%
+#                      mutate(npi_masks = as.factor(npi_masks)) %>% 
+#                      mutate(npi_testing_policy = as.factor(npi_testing_policy))) 
+#                      mutate(Code = NULL, X = NULL, Date = NULL))
