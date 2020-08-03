@@ -3,7 +3,8 @@ library(dplyr)
 library(countrycode)
 library(gsheet)
 library(tidyr)
-
+library(xml2)
+library(remotes)
 #GLOBAL DATASETS
 #####################
 #Our world in data daily test positivity rate smoothed over 7 days
@@ -42,10 +43,15 @@ odb <- read.csv("https://opendatabarometer.org/assets/data/ODB-2014-Rankings.csv
 odb <- odb %>% select ((ISO3:ODB.Scaled)) 
 summary(odb)
 
+#global health security index (from ghsindex.org) *will update with better link once .xlsm data import figured out
+ghs <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1eHkJpPtikALZATx7kOZ18ugzODYVAQV9kWn7Il22W9g/edit?usp=sharing")
+ghs <- ghs %>% mutate(country = as.factor(country))
+
 # Putting together global Dataset
 global <- inner_join(owid, delve)
 global <- inner_join(global,Rtcountry) 
-global <- inner_join (global, odb, by = c("iso_code" = "ISO3") )   
+global <- inner_join (global, odb, by = c("iso_code" = "ISO3"))
+global <- inner_join(global, ghs)
 
 summary(global)
 
@@ -61,7 +67,7 @@ USstate_data <- (USstate_data %>%
                    mutate(date = as.character(date)) %>% 
                    mutate(date = as.Date(date, format("%Y%m%d"))))
 
-
+#Effective Reproductive Number Estimates from from http://epidemicforecasting.org/
 Rtstate <-  (Rt %>%
               mutate(Date = as.Date(Date, format= "%Y-%m-%d"), X = NULL) %>%
               filter(grepl ("^US-", Code)) %>%
@@ -70,7 +76,10 @@ Rtstate <-  (Rt %>%
               rename(date = Date))
 summary(Rtstate)
 
+# Putting Together US Dataset
 USstate_data <- inner_join(USstate_data, Rtstate)
+
+summary(USstate_data)
 #Canada Data
 ###############3
 #Government of Canada (GoC) COVID-19 Dataset 
