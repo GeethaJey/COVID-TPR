@@ -12,6 +12,26 @@ vim_session:
 
 Sources += $(wildcard *.R *.md)
 
+######################################################################
+
+## Geetha's big global script
+
+## Datasets.R
+
+## Use a phony target so I can control when owid.csv gets made
+update_owid:
+	wget -O owid.csv "https://covid.ourworldindata.org/data/owid-covid-data.csv"
+Ignore += owid.csv
+owid.csv:
+	$(MAKE) owid.csv
+
+## JD's version of Datasets; may never be finished but is pedagogical
+combine.Rout: combine.R owid.csv
+	$(makeR)
+
+######################################################################
+
+## Not currently in use
 Regression.Rout: Regression.R
 	$(run-R)
 
