@@ -23,7 +23,7 @@ update_owid:
 	wget -O owid.csv "https://covid.ourworldindata.org/data/owid-covid-data.csv"
 Ignore += owid.csv
 owid.csv:
-	$(MAKE) owid.csv
+	$(MAKE) update_owid
 
 ## JD's version of Datasets; may never be finished but is pedagogical
 combine.Rout: combine.R owid.csv
