@@ -25,6 +25,11 @@ Ignore += owid.csv
 owid.csv:
 	$(MAKE) update_owid
 
+update_delve:
+	wget -O delve.csv "https://raw.githubusercontent.com/rs-delve/covid19_datasets/master/dataset/combined_dataset_latest.csv"
+Ignore += delve.csv
+delve.csv:
+	$(MAKE) update_delve
 ## JD's version of Datasets; may never be finished but is pedagogical
 combine.Rout: combine.R owid.csv
 	$(makeR)
