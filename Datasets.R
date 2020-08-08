@@ -3,9 +3,10 @@ library(dplyr)
 library(countrycode)
 library(gsheet)
 library(tidyr)
-library(xml2)
-library(remotes)
-#GLOBAL DATASETS
+library(readxl)
+
+#####################
+##GLOBAL DATASETS###
 #####################
 #Our world in data daily test positivity rate smoothed over 7 days
 owid <- read.csv("https://covid.ourworldindata.org/data/owid-covid-data.csv")
@@ -16,7 +17,7 @@ owid <- (owid %>%
         select (!(total_cases:stringency_index)) %>%         
         filter(!is.na(daily.tpr), daily.tpr <= 200) %>%
         filter(!is.na(cumulative.tpr)) %>% 
-        rename(country = location))
+         rename(country = location, ISO = iso_code))
         
 summary(owid)
 
@@ -40,23 +41,26 @@ summary(Rtcountry)
 
 #Open Data Barometer (Openness of data measurement)
 odb <- read.csv("https://opendatabarometer.org/assets/data/ODB-2014-Rankings.csv")
-odb <- odb %>% select ((ISO3:ODB.Scaled)) 
+odb <- odb %>% select ((ISO3:ODB.Scaled)) %>% rename(country = Country, ISO = ISO3) 
 summary(odb)
 
-#global health security index (from ghsindex.org) *will update with better link once .xlsm data import figured out
-ghs <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1eHkJpPtikALZATx7kOZ18ugzODYVAQV9kWn7Il22W9g/edit?usp=sharing")
-ghs <- ghs %>% mutate(country = as.factor(country))
-
+#global health security index (from ghsindex.org) 
+ghs <- read_excel("ghsindex.xlsm",sheet = "Scores")
+ghs <- ghs %>% 
+        slice(-(1:8))
 # Putting together global Dataset
-global <- inner_join(owid, delve)
-global <- inner_join(global,Rtcountry) 
-global <- inner_join (global, odb, by = c("iso_code" = "ISO3"))
-global <- inner_join(global, ghs)
+global <- full_join(owid, delve)
+global <- full_join(global,Rtcountry) 
+global <- full_join (global, odb)
+
+global <- (global %>% 
+                mutate(ISO = as.factor(ISO), country = as.factor(country)))
 
 summary(global)
 
-# US DATA 
-############
+##################
+### US DATASET ###
+##################
 
 #Covid-Tracking project
 USstate_data <- read.csv("https://covidtracking.com/api/v1/states/daily.csv")
@@ -76,10 +80,17 @@ Rtstate <-  (Rt %>%
               rename(date = Date))
 summary(Rtstate)
 
+#US mobility 
+US_mobility <- read.csv("https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv?cachebust=94537edba4db1128")
+US_mobility <- US_mobility %>% 
+               filter(grepl("^US-",iso_3166_2_code) %>% 
+               separate(iso_3166_2_code, c("country", "state"))                              )
 # Putting Together US Dataset
+
 USstate_data <- inner_join(USstate_data, Rtstate)
 
 summary(USstate_data)
+
 #Canada Data
 ###############3
 #Government of Canada (GoC) COVID-19 Dataset 
