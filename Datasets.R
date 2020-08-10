@@ -47,14 +47,21 @@ summary(odb)
 
 #global health security index (from ghsindex.org) 
 ghs <- read_excel("ghsindex.xlsm",sheet = "iScores", range = "N4:OP267",col_names = TRUE)
-ghs <- t(ghs)
-
-
-summary(ghs)
+GHSI <- t(ghs)
+ghscoltitle <- GHSI[1,]
+colnames(GHSI, do.NULL = TRUE, prefix = "col" )
+colnames(GHSI) <- ghscoltitle
+GHSI <- as.data.frame(GHSI)
+GHSI <- (GHSI %>%
+               # rename(country = Indicators) %>% 
+                 filter(!(country == "Indicators" | country == "Weight")) %>% 
+                 mutate(across()))
+summary(GHSI)
 # Putting together global Dataset
 global <- full_join(owid, delve)
 global <- full_join(global,Rtcountry) 
 global <- full_join (global, odb)
+global <- full_join(global, GHSI)
 
 global <- (global %>% 
                 mutate(ISO = as.factor(ISO), country = as.factor(country)))
