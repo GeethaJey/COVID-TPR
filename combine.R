@@ -1,11 +1,10 @@
-
 library(ggplot2)
 library(dplyr)
 library(countrycode)
 library(gsheet)
 library(tidyr)
-library(xml2)
-library(remotes)
+library(readxl)
+
 
 source("makestuff/makeRfuns.R")
 
@@ -24,16 +23,17 @@ owid <- (owid %>%
         
 summary(owid)
 
-quit()
 
 #DELVE (Data Evaluation and Learning for Viral Epidemics) Dataset 
-delve = read.csv(url("https://raw.githubusercontent.com/rs-delve/covid19_datasets/master/dataset/combined_dataset_latest.csv"))
+delve = read.csv(matchFile("delve.csv"))
 delve <- (delve %>%
             mutate(DATE = as.Date(DATE, format= "%Y-%m-%d"), country_name = as.factor(country_name), ISO = as.factor(ISO)) %>%
             mutate(across(c(starts_with("npi") & !(npi_fiscal_measures|npi_international_support|npi_healthcare_investment|npi_vaccine_investment|npi_stringency_index)), as.factor)) %>% 
             rename (date = DATE, country = country_name))
           
 summary(delve)
+
+quit()
 
 #Country Effective Reproductive Number Estimates from University of Oxford, Australian National University, and Harvard from http://epidemicforecasting.org/
 Rt <- read.csv("https://storage.googleapis.com/static-covid/static/v4/main/r_estimates.csv")

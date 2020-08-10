@@ -5,6 +5,7 @@ library(gsheet)
 library(tidyr)
 library(readxl)
 
+
 #####################
 ##GLOBAL DATASETS###
 #####################
@@ -47,8 +48,6 @@ summary(odb)
 #global health security index (from ghsindex.org) 
 ghs <- read_excel("ghsindex.xlsm",sheet = "iScores", range = "N4:OP267",col_names = TRUE)
 ghs <- t(ghs)
-ghs <- ghs %>% 
-        rename(country = V2)
 
 
 summary(ghs)
@@ -81,7 +80,7 @@ Rtstate <-  (Rt %>%
               filter(grepl ("^US-", Code)) %>%
               separate(Code, c("country","state")) %>% 
               mutate (state = as.factor(state), country = as.factor(country)) %>% 
-              rename(date = Date))
+              rename (date = Date))
 summary(Rtstate)
 
 #US mobility 

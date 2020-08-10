@@ -30,8 +30,9 @@ update_delve:
 Ignore += delve.csv
 delve.csv:
 	$(MAKE) update_delve
+	
 ## JD's version of Datasets; may never be finished but is pedagogical
-combine.Rout: combine.R owid.csv
+combine.Rout: combine.R owid.csv delve.csv
 	$(makeR)
 
 ######################################################################

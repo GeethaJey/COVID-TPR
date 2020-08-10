@@ -55,13 +55,21 @@ per 1000 people while Australia conducts 136 tests per 1000). Though low
 testing rates did not fully account for the low TPR, a low TPR in
 regions with low testing rates should be interpreted differently than
 regions with a high testing rate. 
-* The [CDC's initial mixup](https://www.theatlantic.com/health/archive/2020/05/cdc-and-states-are-misreporting-covid-19-test-data-pennsylvania-georgia-texas/611935/) of viral and antibody tests reported together caused positivity rates to appear low. Several states such as Pennsylvania, Texas, Georgia, Vermont, and Virginia have used the aggregated TPR to guide reopening. In the state of Virginia, the antibody test results were combined with the viral PCR tests affecting the TPR. With the state using the low TPR to justify the loosening of lockdown restrictions,types of tests included in the metric should be considered when interpreting the value and used for decision making. Virginia has since separated the tests following this article. 
+
 
 The WHO recommendation for malaria program managers suggest the use of TPR instead of incidence rates as a measurement if the following 3 factors are inconsistent over time: general outpatient attendance, testing practices, and reporting completeness. Outpatient attendance may be affected by transportation accessibility, user fees, political instability, or general behaviour of treating illnesses at home through over the counter medication or informal drug distributors. If private-for-profit or informal health care providers are taken into account, reporting completeness may be a significant barrier. The TPR is less sensitive to these factors, through it can still be distorted and misinterpreted. 
 
-```{r canada, echo=TRUE}
-summary(national)
-```
+#### The Effects of creating a TPR Target
+*Goodhart's Law: "When a measure becomes a target, it ceases to be a good measure"*
+
+With the focus on test positivity rates as key or even sole indicator of a regions testing and outbreak containment, some regions have developed testing strategies or employed reporting methods to ensure the positivity rate is low. Several states such as Pennsylvania, Texas, Georgia, Vermont, and Virginia have [aggregated their viral and antibody test results](https://www.theatlantic.com/health/archive/2020/05/cdc-and-states-are-misreporting-covid-19-test-data-pennsylvania-georgia-texas/611935/), causing positivity rates across states to appear low. With the state using the low TPR to justifyloosening lockdown restrictions,types of tests included in the metric should be considered when interpreting the value and used for decision making. 
+
+### The Global Health Security Index 
+
+The GHS was developed in 2019 to assess the global health capabilities of 195 countries (countries of the International Health Regulations). It is comprised of six categories: prevention,detection and reporting, rapid response, health system, compliance with international norms, and risk environment. Each of these categories are calculated through various indicators, and weighed to generate a score. Looking at the overall score, the U.S is ranked the highest, while their response to COVID-19 has been inadequate in comparison to countries like South Korea, which was given a lower score. However, when looking into the specific components such as healthcare access, the US ranked quite low (175th out of 195) due to the [lack of guaranteed healthcare access for all citizens](https://www.ghsindex.org/news/the-us-and-covid-19-leading-the-world-by-ghs-index-score-not-by-response/). Identifying which of the indicators/sub-indicators played a crucial role in efficient response, as well as which measures not included in the index were important factors will allow to better identify how countries can improve their response both for the current pandemic and future global health security risks. 
+
+
+
 
 ### Canada Cumulative Test Positivity Rate
 ```{r tpr, echo=FALSE}

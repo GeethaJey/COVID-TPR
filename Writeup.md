@@ -3,19 +3,15 @@ Test Positivity Rate Writeup
 Geetha Jeyapragasan
 July 14 2020
 
-The test positivity rate (TPR) is the percentage of tests that are
-positive.For COVID-19, this metric is being used to evaluate testing
-capacity and regime, as well as and severity of an outbreak, (i.e. if
-two regions had the same number of cases but one region was conducting
-twice the number of tests, it would suggest the region with the higher
-positivity rate may be experiencing a more severe outbreak). If the TPR
-is too high, it might indicate the region is only testing those who are
-extremely sick and seeking medical attention, without sampling the wider
-community. A low TPR can indicate sufficient testing capacity. However
-due to several factors influencing the test positivity rate, it is not a
-direct indicator of testing capacity. The test positivity rate has been
-used as a measure of prevalence for outbreaks that occur in regions with
-limited or non-existent health surveillance.
+For COVID-19, the positivity rate is used to as a metric to evaluate
+testing capacity and regime, as well as and severity of an outbreak. If
+the TPR is too high, it might indicate the region is only testing those
+who are extremely sick and seeking medical attention, without sampling
+the wider community. A low TPR can indicate sufficient testing capacity.
+However due to several factors influencing the test positivity rate, it
+is not a direct indicator of testing capacity. The test positivity rate
+has been used as a measure of prevalence for outbreaks that occur in
+regions with limited or non-existent health surveillance.
 
 ### Factors that Affect the TPR
 
@@ -62,17 +58,6 @@ limited or non-existent health surveillance.
     Though low testing rates did not fully account for the low TPR, a
     low TPR in regions with low testing rates should be interpreted
     differently than regions with a high testing rate.
-  - The [CDC’s initial
-    mixup](https://www.theatlantic.com/health/archive/2020/05/cdc-and-states-are-misreporting-covid-19-test-data-pennsylvania-georgia-texas/611935/)
-    of viral and antibody tests reported together caused positivity
-    rates to appear low. Several states such as Pennsylvania, Texas,
-    Georgia, Vermont, and Virginia have used the aggregated TPR to guide
-    reopening. In the state of Virginia, the antibody test results were
-    combined with the viral PCR tests affecting the TPR. With the state
-    using the low TPR to justify the loosening of lockdown
-    restrictions,types of tests included in the metric should be
-    considered when interpreting the value and used for decision making.
-    Virginia has since separated the tests following this article.
 
 The WHO recommendation for malaria program managers suggest the use of
 TPR instead of incidence rates as a measurement if the following 3
@@ -86,68 +71,45 @@ account, reporting completeness may be a significant barrier. The TPR is
 less sensitive to these factors, through it can still be distorted and
 misinterpreted.
 
-``` r
-summary(national)
-```
+#### The Effects of creating a TPR Target
 
-    ##                        prname         date               numconf      
-    ##  Canada                   :138   Min.   :2020-03-11   Min.   :   103  
-    ##  Alberta                  :  0   1st Qu.:2020-04-14   1st Qu.: 27376  
-    ##  British Columbia         :  0   Median :2020-05-18   Median : 78581  
-    ##  Manitoba                 :  0   Mean   :2020-05-18   Mean   : 65826  
-    ##  New Brunswick            :  0   3rd Qu.:2020-06-21   3rd Qu.:101551  
-    ##  Newfoundland and Labrador:  0   Max.   :2020-07-26   Max.   :113898  
-    ##  (Other)                  :  0                                        
-    ##     numprob      numdeaths         numtotal        numtested      
-    ##  Min.   :  0   Min.   :   2.0   Min.   :   103   Min.   :  11023  
-    ##  1st Qu.: 11   1st Qu.: 929.8   1st Qu.: 27392   1st Qu.: 458171  
-    ##  Median : 11   Median :5877.0   Median : 78592   Median :1331709  
-    ##  Mean   : 22   Mean   :4946.7   Mean   : 65848   Mean   :1506463  
-    ##  3rd Qu.: 13   3rd Qu.:8434.5   3rd Qu.:101562   3rd Qu.:2436949  
-    ##  Max.   :833   Max.   :8890.0   Max.   :113911   Max.   :3801950  
-    ##                                                                   
-    ##    numrecover    percentrecover       ratetested        numtoday     
-    ##  Min.   :  230   Length:138         Min.   :   293   Min.   :   0.0  
-    ##  1st Qu.:27288   Class :character   1st Qu.: 12189   1st Qu.: 356.2  
-    ##  Median :50048   Mode  :character   Median : 35428   Median : 703.0  
-    ##  Mean   :47884                      Mean   : 40077   Mean   : 824.9  
-    ##  3rd Qu.:66931                      3rd Qu.: 64831   3rd Qu.:1245.8  
-    ##  Max.   :99355                      Max.   :101145   Max.   :2760.0  
-    ##  NA's   :28                                                          
-    ##   percentoday        ratetotal        ratedeaths      deathstoday    
-    ##  Min.   : 0.0000   Min.   :  0.27   Min.   : 0.010   Min.   :  0.00  
-    ##  1st Qu.: 0.4025   1st Qu.: 72.88   1st Qu.: 2.473   1st Qu.:  9.00  
-    ##  Median : 1.4600   Median :209.08   Median :15.635   Median : 46.00  
-    ##  Mean   : 5.8293   Mean   :175.18   Mean   :13.160   Mean   : 64.41  
-    ##  3rd Qu.: 5.3725   3rd Qu.:270.19   3rd Qu.:22.438   3rd Qu.:112.75  
-    ##  Max.   :46.2300   Max.   :303.04   Max.   :23.650   Max.   :222.00  
-    ##                                                                      
-    ##   percentdeath    testedtoday    recoveredtoday    percentactive  
-    ##  Min.   :0.790   Min.   :    0   Min.   :    0.0   Min.   : 3.78  
-    ##  1st Qu.:3.395   1st Qu.:16830   1st Qu.:  356.5   1st Qu.:28.46  
-    ##  Median :7.500   Median :27622   Median :  678.0   Median :42.08  
-    ##  Mean   :5.924   Mean   :27550   Mean   :  954.1   Mean   :51.67  
-    ##  3rd Qu.:8.168   3rd Qu.:37772   3rd Qu.:  897.5   3rd Qu.:83.03  
-    ##  Max.   :8.330   Max.   :78091   Max.   :23853.0   Max.   :99.21  
-    ##                                  NA's   :28                       
-    ##    numactive       rateactive    numtotal_last14 ratetotal_last14
-    ##  Min.   :  101   Min.   : 0.27   Min.   : 2715   Min.   : 7.22   
-    ##  1st Qu.:12770   1st Qu.:33.97   1st Qu.: 5226   1st Qu.:13.90   
-    ##  Median :27702   Median :73.69   Median :11855   Median :31.54   
-    ##  Mean   :22732   Mean   :60.48   Mean   :12352   Mean   :32.86   
-    ##  3rd Qu.:31572   3rd Qu.:83.99   3rd Qu.:18768   3rd Qu.:49.93   
-    ##  Max.   :35001   Max.   :93.11   Max.   :24688   Max.   :65.68   
-    ##                                  NA's   :13      NA's   :13      
-    ##  numdeaths_last14 ratedeaths_last14      tpr       
-    ##  Min.   :  25.0   Min.   :0.070     Min.   :0.888  
-    ##  1st Qu.: 257.0   1st Qu.:0.680     1st Qu.:3.355  
-    ##  Median : 818.0   Median :2.180     Median :4.691  
-    ##  Mean   : 990.1   Mean   :2.634     Mean   :4.523  
-    ##  3rd Qu.:1553.0   3rd Qu.:4.130     3rd Qu.:5.903  
-    ##  Max.   :2311.0   Max.   :6.150     Max.   :6.742  
-    ##  NA's   :13       NA's   :13
+*Goodhart’s Law: “When a measure becomes a target, it ceases to be a
+good measure”*
 
-### Canada Test Positivity Rate
+With the focus on test positivity rates as key or even sole indicator of
+a regions testing and outbreak containment, some regions have developed
+testing strategies or employed reporting methods to ensure the
+positivity rate is low. Several states such as Pennsylvania, Texas,
+Georgia, Vermont, and Virginia have [aggregated their viral and antibody
+test
+results](https://www.theatlantic.com/health/archive/2020/05/cdc-and-states-are-misreporting-covid-19-test-data-pennsylvania-georgia-texas/611935/),
+causing positivity rates across states to appear low. With the state
+using the low TPR to justifyloosening lockdown restrictions,types of
+tests included in the metric should be considered when interpreting the
+value and used for decision making.
+
+### The Global Health Security Index
+
+The GHS was developed in 2019 to assess the global health capabilities
+of 195 countries (countries of the International Health Regulations). It
+is comprised of six categories: prevention,detection and reporting,
+rapid response, health system, compliance with international norms, and
+risk environment. Each of these categories are calculated through
+various indicators, and weighed to generate a score. Looking at the
+overall score, the U.S is ranked the highest, while their response to
+COVID-19 has been inadequate in comparison to countries like South
+Korea, which was given a lower score. However, when looking into the
+specific components such as healthcare access, the US ranked quite low
+(175th out of 195) due to the [lack of guaranteed healthcare access for
+all
+citizens](https://www.ghsindex.org/news/the-us-and-covid-19-leading-the-world-by-ghs-index-score-not-by-response/).
+Identifying which of the indicators/sub-indicators played a crucial role
+in efficient response, as well as which measures not included in the
+index were important factors will allow to better identify how countries
+can improve their response both for the current pandemic and future
+global health security risks.
+
+### Canada Cumulative Test Positivity Rate
 
 ![](Writeup_files/figure-gfm/tpr-1.png)<!-- -->
 
