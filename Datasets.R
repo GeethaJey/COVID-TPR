@@ -34,8 +34,8 @@ summary(delve)
 Rt <- read.csv("https://storage.googleapis.com/static-covid/static/v4/main/r_estimates.csv")
 Rtcountry <- (Rt %>%
          mutate(Date = as.Date(Date, format= "%Y-%m-%d"), X = NULL) %>%
-         filter(!grepl ("^US-", Code)) %>% 
-         mutate(country = countrycode(Code, "iso2c","country.name"), country =as.factor(country)) %>% #converting country codes to country names. US states not converted 
+         filter(!grepl ("^US-", Code), !grepl ("^AU-", Code), !grepl ("^CN-", Code)) %>% 
+         mutate(country = countrycode(Code, "iso2c","country.name"), country =as.factor(country)) %>% #converting country codes to country names. States not converted 
          rename(date=Date))
 summary(Rtcountry)
 
@@ -45,9 +45,13 @@ odb <- odb %>% select ((ISO3:ODB.Scaled)) %>% rename(country = Country, ISO = IS
 summary(odb)
 
 #global health security index (from ghsindex.org) 
-ghs <- read_excel("ghsindex.xlsm",sheet = "Scores")
+ghs <- read_excel("ghsindex.xlsm",sheet = "iScores", range = "N4:OP267",col_names = TRUE)
+ghs <- t(ghs)
 ghs <- ghs %>% 
-        slice(-(1:8))
+        rename(country = V2)
+
+
+summary(ghs)
 # Putting together global Dataset
 global <- full_join(owid, delve)
 global <- full_join(global,Rtcountry) 
