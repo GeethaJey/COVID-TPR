@@ -1,0 +1,94 @@
+
+R version 4.0.2 (2020-06-22) -- "Taking Off Again"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin17.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> library(ggplot2)
+> library(dplyr)
+> library(countrycode)
+> library(gsheet)
+> library(tidyr)
+> library(xml2)
+> library(remotes)
+> 
+> source("makestuff/makeRfuns.R")
+> 
+> #GLOBAL DATASETS
+> #####################
+> #Our world in data daily test positivity rate smoothed over 7 days
+> owid <- read.csv(matchFile("owid.csv"))
+> 
+> owid <- (owid %>% 
++         mutate(location = as.factor(location), continent = as.factor(continent), iso_code = as.factor(iso_code), date = (as.Date(date, format= "%Y-%m-%d")),tests_units = as.factor(tests_units)) %>% 
++         mutate(cumulative.tpr = (total_cases/total_tests)*100, daily.tpr = (new_cases/new_tests)*100) %>% 
++         select (!(total_cases:stringency_index)) %>%         
++         filter(!is.na(daily.tpr), daily.tpr <= 200) %>%
++         filter(!is.na(cumulative.tpr)) %>% 
++         rename(country = location))
+>         
+> summary(owid)
+    iso_code            continent              country          date           
+ MEX    : 204                :   0   Mexico        : 204   Min.   :2020-01-01  
+ TWN    : 200   Africa       :1352   Taiwan        : 200   1st Qu.:2020-04-18  
+ CHE    : 190   Asia         :2667   Switzerland   : 190   Median :2020-05-25  
+ CZE    : 177   Europe       :3926   Czech Republic: 177   Mean   :2020-05-22  
+ DNK    : 176   North America:1013   Denmark       : 176   3rd Qu.:2020-06-28  
+ ISR    : 170   Oceania      : 363   Israel        : 170   Max.   :2020-08-03  
+ (Other):9218   South America:1014   (Other)       :9218                       
+   population        population_density   median_age    aged_65_older   
+ Min.   :3.412e+05   Min.   :   3.202   Min.   :16.40   Min.   : 1.144  
+ 1st Qu.:5.460e+06   1st Qu.:  44.223   1st Qu.:29.30   1st Qu.: 5.809  
+ Median :1.167e+07   Median :  87.324   Median :35.60   Median :11.373  
+ Mean   :5.474e+07   Mean   : 189.599   Mean   :34.94   Mean   :11.579  
+ 3rd Qu.:4.520e+07   3rd Qu.: 204.430   3rd Qu.:42.30   3rd Qu.:18.436  
+ Max.   :1.380e+09   Max.   :1935.907   Max.   :48.20   Max.   :27.049  
+                     NA's   :200                        NA's   :200     
+ aged_70_older    gdp_per_capita   extreme_poverty  cardiovasc_death_rate
+ Min.   : 0.526   Min.   :  1430   Min.   : 0.100   Min.   : 79.37       
+ 1st Qu.: 3.262   1st Qu.: 10582   1st Qu.: 0.200   1st Qu.:127.99       
+ Median : 7.359   Median : 24056   Median : 1.000   Median :181.01       
+ Mean   : 7.437   Mean   : 27320   Mean   : 6.193   Mean   :215.29       
+ 3rd Qu.:11.580   3rd Qu.: 39002   3rd Qu.: 4.500   3rd Qu.:280.03       
+ Max.   :18.493   Max.   :116936   Max.   :56.000   Max.   :539.85       
+ NA's   :147      NA's   :333      NA's   :2270                          
+ diabetes_prevalence female_smokers   male_smokers   handwashing_facilities
+ Min.   : 1.820      Min.   : 0.30   Min.   : 7.70   Min.   : 4.617        
+ 1st Qu.: 5.500      1st Qu.: 2.70   1st Qu.:21.00   1st Qu.:34.808        
+ Median : 6.930      Median :13.50   Median :30.90   Median :65.386        
+ Mean   : 7.494      Mean   :13.25   Mean   :31.69   Mean   :60.016        
+ 3rd Qu.: 8.520      3rd Qu.:20.90   3rd Qu.:39.90   3rd Qu.:85.198        
+ Max.   :17.720      Max.   :37.70   Max.   :76.10   Max.   :98.999        
+ NA's   :200         NA's   :442     NA's   :531     NA's   :6590          
+ hospital_beds_per_thousand life_expectancy cumulative.tpr   
+ Min.   : 0.300             Min.   :54.69   Min.   :  0.000  
+ 1st Qu.: 1.400             1st Qu.:73.60   1st Qu.:  1.736  
+ Median : 2.770             Median :77.29   Median :  3.868  
+ Mean   : 3.441             Mean   :76.41   Mean   :  7.289  
+ 3rd Qu.: 5.000             3rd Qu.:81.32   3rd Qu.:  8.541  
+ Max.   :13.050             Max.   :84.63   Max.   :120.534  
+ NA's   :747                                                 
+   daily.tpr        
+ Min.   :-169.9196  
+ 1st Qu.:   0.5371  
+ Median :   2.6726  
+ Mean   :   7.9919  
+ 3rd Qu.:   9.2245  
+ Max.   : 181.3681  
+                    
+> 
+> quit()

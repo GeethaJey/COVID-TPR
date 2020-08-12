@@ -84,9 +84,15 @@ Georgia, Vermont, and Virginia have [aggregated their viral and antibody
 test
 results](https://www.theatlantic.com/health/archive/2020/05/cdc-and-states-are-misreporting-covid-19-test-data-pennsylvania-georgia-texas/611935/),
 causing positivity rates across states to appear low. With the state
-using the low TPR to justifyloosening lockdown restrictions,types of
-tests included in the metric should be considered when interpreting the
-value and used for decision making.
+using the low TPR to justify loosening lockdown restrictions, the
+testing population and types of tests included in the metric should be
+carefully observed when interpreting the value and used for decision
+making. California reported a sharp decline in infection rate and
+positivity rate, but due to [technical issues within the state’s data
+system](https://www.latimes.com/california/story/2020-08-04/californias-coronavirus-test-result-data-may-be-flawed-says-top-health-official)
+and reporting delays, various counties are severely under-counting
+community cases. Aside from test positivity rates, this has also been
+noted with other metrics such as exposure time, where the
 
 ### The Global Health Security Index
 
@@ -98,16 +104,65 @@ risk environment. Each of these categories are calculated through
 various indicators, and weighed to generate a score. Looking at the
 overall score, the U.S is ranked the highest, while their response to
 COVID-19 has been inadequate in comparison to countries like South
-Korea, which was given a lower score. However, when looking into the
-specific components such as healthcare access, the US ranked quite low
-(175th out of 195) due to the [lack of guaranteed healthcare access for
-all
+Korea, Japan and New Zealand, which were given lower scores. However,
+when looking into the specific components such as healthcare access, the
+US ranked quite low (175th out of 195) due to the [lack of guaranteed
+healthcare access for all
 citizens](https://www.ghsindex.org/news/the-us-and-covid-19-leading-the-world-by-ghs-index-score-not-by-response/).
 Identifying which of the indicators/sub-indicators played a crucial role
 in efficient response, as well as which measures not included in the
-index were important factors will allow to better identify how countries
-can improve their response both for the current pandemic and future
-global health security risks.
+index were important factors in response. This will allow to better
+identify how countries can improve their response both for the current
+pandemic and future global health security risks.
+
+#### Current Analysis of the GHS Index
+
+  - [The Global Health Security Index is not predictive of coronavirus
+    pandemic responses among Organization for Economic Cooperation and
+    Development
+    countries](https://www.medrxiv.org/content/10.1101/2020.07.21.20159061v1).
+    \*\* The study (pre-print) found a discrepancy between the GHS index
+    rating of four indices (i.e., total cases, total deaths, recovery
+    rate, and total tests performed) and the actual performance of the
+    36 OECD countries during the pandemic, with an overestimation of the
+    preparedness of some countries scoring highly on the GHS index and
+    underestimation of the preparedness of other countries with
+    relatively lower scores on the GHS index. The U.S and U.K were the
+    highest ranked on the GHS index, but are among the top countries
+    with the highest number of cases per million people.
+  - [Rethinking pandemic preparation: Global Health Security Index
+    (GHSI) is predictive of COVID-19 burden, but in the opposite
+    direction](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7207133/).
+    \*\* Paper assessed relationship between the index and COVID-19
+    burden, specifically \# of tests, confirmed cases and deaths per
+    million since first confirmed case. The index was plotted against
+    the log transformed values of the outcomes, and a generalized linear
+    model was used to determine the association between the index,
+    confirmed cases and deaths per million. \*\* Findings found no
+    association between index and testing rate, a positive association
+    between the index and COVID-19 cases and deaths. This was the
+    opposite of what was expected, though the relationship could have
+    been compounded due to the increased globalization in most countries
+    with a higher GHS index. This shows the capacity to respond
+    shouldn’t be assessed using the overall score, but rather looking
+    into the specific indicators that make a countries response
+    successful.
+  - [COVID-19 gives the lie to global health
+    expertise](https://www.thelancet.com/journals/lancet/article/PIIS0140-6736\(20\)30739-X/fulltext).
+    \*\* Correspondence in The Lancet discussing the index,specifically
+    analyzing the response of countries that ranked low on the index
+    (comprised of most LMICs).  
+    \*\* Most African countries were near the bottom of the ranking, but
+    have implemented successful measures in response to COVID-19. Uganda
+    has implemented simplified triage strategies and proactive
+    screening, Rwanda put in handwashing stations at transport hubs,
+    Senegal is using WhatsApp chatbots providing reliable information
+    and rapid testing diagnostics, and Nigeria is using
+    volunteer-staffed call centres and celebrity campaigns to promote
+    responsible actions during the pandemic. Relatively little has been
+    heard about these efforts, though many West and Central African
+    countries made significant improvements to their response following
+    the Ebola outbreak from 2014-2016.
 
 ### Canada Cumulative Test Positivity Rate
 
