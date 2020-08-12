@@ -46,17 +46,18 @@ odb <- odb %>% select ((ISO3:ODB.Scaled)) %>% rename(country = Country, ISO = IS
 summary(odb)
 
 #global health security index (from ghsindex.org) 
-ghs <- read_excel("ghsindex.xlsm",sheet = "iScores", range = "N4:OP267",col_names = TRUE)
-GHSI <- t(ghs)
+GHSI <- read_excel("ghsindex.xlsm",sheet = "iScores", range = "N4:OP267",col_names = TRUE)
+GHSI <- t(GHSI)
 ghscoltitle <- GHSI[1,]
 colnames(GHSI, do.NULL = TRUE, prefix = "col" )
 colnames(GHSI) <- ghscoltitle
 GHSI <- as.data.frame(GHSI)
 GHSI <- (GHSI %>%
-               # rename(country = Indicators) %>% 
-                 filter(!(country == "Indicators" | country == "Weight")) %>% 
-                 mutate(across()))
-summary(GHSI)
+                 rename(country = Indicators) %>% 
+                 slice(2:197) %>% 
+                 mutate_at(vars(-country), as.numeric))
+
+
 # Putting together global Dataset
 global <- full_join(owid, delve)
 global <- full_join(global,Rtcountry) 
