@@ -10,7 +10,9 @@ vim_session:
 
 ######################################################################
 
-Sources += $(wildcard *.R *.md)
+Sources += $(wildcard *.R *.md *.Rmd)
+
+## Writeup.Rmd.html: Writeup.Rmd
 
 ######################################################################
 
@@ -37,6 +39,10 @@ combine.Rout: combine.R owid.csv delve.csv
 
 ######################################################################
 
+Writeup.html: Writeup.Rmd
+
+######################################################################
+
 ## Not currently in use
 Regression.Rout: Regression.R
 	$(run-R)
@@ -60,6 +66,7 @@ makestuff/Makefile:
 
 -include makestuff/makeR.mk
 
+-include makestuff/rmd.mk
 -include makestuff/git.mk
 -include makestuff/visual.mk
 -include makestuff/projdir.mk
