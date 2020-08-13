@@ -45,10 +45,21 @@ Ignore += odb.csv
 odb.csv: 
 	$(MAKE) update_odb
 	
+## US Datasets
 
+update_USstatedata:
+	wget -O USstatedata.csv "https://covidtracking.com/api/v1/states/daily.csv"
+Ignore += USstatedata.csv
+USstatedata.csv: 
+	$(MAKE) update_USstatedata
 
+update_USmobility: 
+	wget -O USmobility.csv "https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv?cachebust=94537edba4db1128"
+Ignore += USmobility.csv
+USmobility.csv: 
+	$(MAKE) update_USmobility
 ## JD's version of Datasets; may never be finished but is pedagogical
-combine.Rout: combine.R owid.csv delve.csv Rt.csv odb.csv
+combine.Rout: combine.R owid.csv delve.csv Rt.csv odb.csv USstatedata.csv USmobility.csv
 	$(makeR)
 
 ######################################################################
