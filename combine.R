@@ -36,7 +36,7 @@ summary(delve)
 quit()
 
 #Country Effective Reproductive Number Estimates from University of Oxford, Australian National University, and Harvard from http://epidemicforecasting.org/
-Rt <- read.csv("https://storage.googleapis.com/static-covid/static/v4/main/r_estimates.csv")
+Rt <- read.csv(matchFile("Rt.csv"))
 Rtcountry <- (Rt %>%
          mutate(Date = as.Date(Date, format= "%Y-%m-%d"), X = NULL) %>%
          filter(!grepl ("^US-", Code)) %>% 
@@ -45,7 +45,7 @@ Rtcountry <- (Rt %>%
 summary(Rtcountry)
 
 #Open Data Barometer (Openness of data measurement)
-odb <- read.csv("https://opendatabarometer.org/assets/data/ODB-2014-Rankings.csv")
+odb <- read.csv(matchFile("odb.csv"))
 odb <- odb %>% select ((ISO3:ODB.Scaled)) 
 summary(odb)
 

@@ -33,8 +33,22 @@ Ignore += delve.csv
 delve.csv:
 	$(MAKE) update_delve
 	
+update_Rt: 
+	wget -O Rt.csv "https://storage.googleapis.com/static-covid/static/v4/main/r_estimates.csv"
+Ignore += Rt.csv
+Rt.csv:
+	$(MAKE) update_Rt
+	
+update_odb: 
+	wget -O odb.csv "https://opendatabarometer.org/assets/data/ODB-2014-Rankings.csv"
+Ignore += odb.csv
+odb.csv: 
+	$(MAKE) update_odb
+	
+
+
 ## JD's version of Datasets; may never be finished but is pedagogical
-combine.Rout: combine.R owid.csv delve.csv
+combine.Rout: combine.R owid.csv delve.csv Rt.csv odb.csv
 	$(makeR)
 
 ######################################################################
