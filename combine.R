@@ -1,3 +1,6 @@
+
+callArgs <- "combine.Rout combine.R owid.csv delve.csv Rt.csv odb.csv USstatedata.csv USmobility.csv"
+
 library(ggplot2)
 library(dplyr)
 library(countrycode)
