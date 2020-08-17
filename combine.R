@@ -55,11 +55,14 @@ odb <- odb %>% select (ISO3:ODB.Scaled) %>% rename(country = Country)
 #global health security index (from https://www.ghsindex.org/wp-content/uploads/2019/10/Global-Health-Security-Index-2019-Final-October-2019.zip) *will update with better link once .xlsm data import figured out
 ghsrange <- "N4:OP267"
 ghslast <- 197
-GHSI <- read_excel("ghsindex.xlsm",sheet = "iScores", range = ghsrange,col_names = TRUE)
+# importing the iScores sheet of the xlsm file,
+GHSI <- read_excel("ghsindex.xlsm",sheet = "iScores", range = ghsrange,col_names = TRUE) 
 GHSI <- t(GHSI)
-ghscoltitle <- GHSI[1,]
+#making the first row the column names
+ghscoltitle <- GHSI[1,] 
 colnames(GHSI, do.NULL = TRUE, prefix = "col" )
 colnames(GHSI) <- ghscoltitle
+#turn excel matrix into data frame
 GHSI <- as.data.frame(GHSI)
 GHSI <- (GHSI %>%
                  rename(country = Indicators) %>% 
