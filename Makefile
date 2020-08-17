@@ -38,13 +38,13 @@ update_Rt:
 Ignore += Rt.csv
 Rt.csv:
 	$(MAKE) update_Rt
-	
+
 update_odb: 
 	wget -O odb.csv "https://opendatabarometer.org/assets/data/ODB-2014-Rankings.csv"
 Ignore += odb.csv
 odb.csv: 
 	$(MAKE) update_odb
-	
+
 ## US Datasets
 
 update_USstatedata:
@@ -58,7 +58,10 @@ update_USmobility:
 Ignore += USmobility.csv
 USmobility.csv: 
 	$(MAKE) update_USmobility
-## JD's version of Datasets; may never be finished but is pedagogical
+
+######################################################################
+
+## Combine the data sets
 combine.Rout: combine.R owid.csv delve.csv Rt.csv odb.csv USstatedata.csv USmobility.csv
 	$(makeR)
 
