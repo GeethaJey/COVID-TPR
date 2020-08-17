@@ -1,5 +1,5 @@
 
-callArgs <- "combine.Rout combine.R owid.csv delve.csv Rt.csv odb.csv USstatedata.csv USmobility.csv"
+callArgs <- "combine.Rout combine.R owid.csv delve.csv Rt.csv odb.csv USstatedata.csv USmobility.csv goc.csv goc_metadata.csv"
 
 library(ggplot2)
 library(dplyr)
@@ -81,7 +81,6 @@ global <- (global %>%
 summary(global)
 
 
-
 # US DATA 
 ############
 
@@ -114,9 +113,9 @@ USstatedata <- full_join(USstatedata, Rtstate, by = c("date", "state"))
 
 #Canada Data
 ###############
-#Government of Canada (GoC) COVID-19 Dataset 
-goc = read.csv("https://health-infobase.canada.ca/src/data/covidLive/covid19.csv")
-goc_metadata = read.csv("https://health-infobase.canada.ca/src/data/covidLive/covid19-data-dictionary.csv")
+#Government of Canada (GOC) COVID-19 Dataset 
+goc = read.csv(matchFile("goc.csv"))
+goc_metadata = read.csv(matchFile("goc_metadata.csv"))
 
  goc <- (goc %>%
                  mutate (pruid = NULL,prnameFR = NULL) %>% 
@@ -124,13 +123,13 @@ goc_metadata = read.csv("https://health-infobase.canada.ca/src/data/covidLive/co
                  mutate (prname = as.factor(prname)) %>%
                  mutate (cumulative.tpr = (numconf/numtested)*100))
  
- summary(goc)
+summary(goc)
 #  Create Subset to for only National Canada Data
-national <- full_join(goc, delve, by = c("prname" = "country","date"))
-national <- full_join(national, Rtcountry,by = c("prname" = "country"))
-national <- (national %>% 
+canada <- full_join(goc, delve, by = c("prname" = "country","date"))
+canada <- full_join(canada, Rtcountry,by = c("prname" = "country"))
+canada <- (canada %>% 
                       filter(grepl ("Canada", prname)) %>%
                       mutate(npi_masks = as.factor(npi_masks)) %>% 
                       mutate(npi_testing_policy = as.factor(npi_testing_policy)) %>% 
                       mutate(Code = NULL, X = NULL, Date = NULL))
-summary(national)
+summary(canada)
