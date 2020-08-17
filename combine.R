@@ -36,7 +36,7 @@ delve <- (delve %>%
           
 summary(delve)
 
-quit()
+
 
 #Country Effective Reproductive Number Estimates from University of Oxford, Australian National University, and Harvard from http://epidemicforecasting.org/
 Rt <- read.csv(matchFile("Rt.csv"))
@@ -74,6 +74,8 @@ global <- (global %>%
                    mutate(ISO = as.factor(ISO), country = as.factor(country)))
 
 summary(global)
+
+
 
 # US DATA 
 ############
