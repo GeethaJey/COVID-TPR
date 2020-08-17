@@ -38,13 +38,13 @@ update_Rt:
 Ignore += Rt.csv
 Rt.csv:
 	$(MAKE) update_Rt
-	
+
 update_odb: 
 	wget -O odb.csv "https://opendatabarometer.org/assets/data/ODB-2014-Rankings.csv"
 Ignore += odb.csv
 odb.csv: 
 	$(MAKE) update_odb
-	
+
 ## US Datasets
 
 update_USstatedata:
@@ -58,7 +58,19 @@ update_USmobility:
 Ignore += USmobility.csv
 USmobility.csv: 
 	$(MAKE) update_USmobility
-## JD's version of Datasets; may never be finished but is pedagogical
+
+update_ghs:
+	wget -O ghs.zip "https://www.ghsindex.org/wp-content/uploads/2019/10/Global-Health-Security-Index-2019-Final-October-2019.zip"
+ghs.zip:
+	$(MAKE) update_ghs
+
+## This is not working yet, but we will fix it
+ghs.xlsm: ghs.zip
+	unzip $< 
+
+######################################################################
+
+## Combine the data sets
 combine.Rout: combine.R owid.csv delve.csv Rt.csv odb.csv USstatedata.csv USmobility.csv
 	$(makeR)
 
