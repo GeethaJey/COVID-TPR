@@ -59,6 +59,15 @@ Ignore += USmobility.csv
 USmobility.csv: 
 	$(MAKE) update_USmobility
 
+update_ghs:
+	wget -O ghs.zip "https://www.ghsindex.org/wp-content/uploads/2019/10/Global-Health-Security-Index-2019-Final-October-2019.zip"
+ghs.zip:
+	$(MAKE) update_ghs
+
+## This is not working yet, but we will fix it
+ghs.xlsm: ghs.zip
+	unzip $< 
+
 ######################################################################
 
 ## Combine the data sets
