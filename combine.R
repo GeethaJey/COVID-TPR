@@ -114,8 +114,8 @@ USstatedata <- full_join(USstatedata, Rtstate, by = c("date", "state"))
 #Canada Data
 ###############
 #Government of Canada (GOC) COVID-19 Dataset 
-goc = read.csv(matchFile("goc.csv"))
-goc_metadata = read.csv(matchFile("goc_metadata.csv"))
+goc = read.csv("https://health-infobase.canada.ca/src/data/covidLive/covid19.csv")
+goc_metadata = read.csv("https://health-infobase.canada.ca/src/data/covidLive/covid19-data-dictionary.csv")
 
  goc <- (goc %>%
                  mutate (pruid = NULL,prnameFR = NULL) %>% 

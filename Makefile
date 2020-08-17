@@ -58,24 +58,12 @@ update_USmobility:
 Ignore += USmobility.csv
 USmobility.csv: 
 	$(MAKE) update_USmobility
-	
 
 update_ghs:
 	wget -O ghs.zip "https://www.ghsindex.org/wp-content/uploads/2019/10/Global-Health-Security-Index-2019-Final-October-2019.zip"
 ghs.zip:
 	$(MAKE) update_ghs
-	
-## Canada Datasets
-update_goc:
-	wget -O goc.csv "https://health-infobase.canada.ca/src/data/covidLive/covid19.csv"
-goc.csv:
-	$(MAKE) update_goc
 
-update_goc_metadata: 
-	wget -O goc_metadata.csv "https://health-infobase.canada.ca/src/data/covidLive/covid19-data-dictionary.csv"
-goc_metadata.csv
-	$(MAKE) update_goc_metadata
-	
 ## This is not working yet, but we will fix it
 ghs.xlsm: ghs.zip
 	unzip $< 
@@ -83,8 +71,8 @@ ghs.xlsm: ghs.zip
 ######################################################################
 
 ## Combine the data sets
-combine.Rout: combine.R owid.csv delve.csv Rt.csv odb.csv USstatedata.csv USmobility.csv goc.csv goc_metadata.csv
-        $(makeR)
+combine.Rout: combine.R owid.csv delve.csv Rt.csv odb.csv USstatedata.csv USmobility.csv
+	$(makeR)
 
 ######################################################################
 
