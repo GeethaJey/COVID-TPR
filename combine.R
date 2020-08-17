@@ -48,11 +48,11 @@ Rtcountry <- (Rt %>%
 summary(Rtcountry)
 
 #Open Data Barometer (Openness of data measurement)
-odb <- read.csv(matchFile("odb.csv"))
-odb <- odb %>% select ((ISO3:ODB.Scaled)) 
+odb <- read.csv(matchFile("odb.csv")) 
+odb <- odb %>% select (ISO3:ODB.Scaled) %>% rename 
 summary(odb)
 
-#global health security index (from ghsindex.org) *will update with better link once .xlsm data import figured out
+#global health security index (from https://www.ghsindex.org/wp-content/uploads/2019/10/Global-Health-Security-Index-2019-Final-October-2019.zip) *will update with better link once .xlsm data import figured out
 GHSI <- read_excel("ghsindex.xlsm",sheet = "iScores", range = "N4:OP267",col_names = TRUE)
 GHSI <- t(GHSI)
 ghscoltitle <- GHSI[1,]
