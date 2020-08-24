@@ -1,11 +1,10 @@
 ---
 title: "Data Visualization"
 author: "Geetha"
-date: "23/08/2020"
 output: github_document
 ---
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE)
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE, fig.width = 12,fig.height = 6)
                      
 library(ggplot2)
 library(dplyr)
@@ -89,14 +88,14 @@ reduced <- (global %>%  filter(country == OECD))
 ```
 
 ## Overview of Global Performance 
-South Korea, Vietnam, Germany and New Zealand have been highlighted by [Exemplars in Global Health](https://www.exemplars.health/emerging-topics/epidemic-preparedness-and-response/covid-19) as countries that are doing comparatively well in managing their outbreak. Mexico, India, Indonesia, and Argentina are examples of countries that have not yet "bent the curve", many with quite high test positivity rates. 
+South Korea, Vietnam, Germany and New Zealand have been highlighted by [Exemplars in Global Health](https://www.exemplars.health/emerging-topics/epidemic-preparedness-and-response/covid-19) as countries that are doing comparatively well in managing their outbreak. Mexico, India, Indonesia, and Argentina are examples of countries that have not yet "bent the curve", many with quite high test positivity rates. The graphs below only include the 36 [Organisation for Economic Co-operation and Development (OECD) Member States](https://www.oecd.org/about/members-and-partners/).
 
 #### Metrics
 
 * Test positivity rate: daily TPR, cumulative TPR
 * Number of Deaths (daily, cumulative, per million, per thousand, smoothed over 7 days)
-* Number of cases (daily, cumulative per million, per thousand, smoothed over 7 days)
-* Number of tests (raw,per million, per thousand, smoothed over 7 days) 
+* Number of cases (daily, cumulative, per million, per thousand, smoothed over 7 days)
+* Number of tests (daily, cumulative, per million, per thousand, smoothed over 7 days) 
 
 Potential Independent variables: 
 
@@ -111,18 +110,16 @@ Potential Options for Inclusion/Exclusion Criteria:
 
 * remove countries with > 100 number of confirmed cases (some papers have used 1000)
 * remove countries with  population >1,000,000 
-* only use OECD countries (this is what is currently used for the graphs below)
+* only use OECD countries
 * only WHO member states 
 * completeness of dataset (must have test data for X% of sample period)
 
 
-Below, independent variables that were not time dependent (health indices) 
+Below, independent variables that were not time dependent (i.e. healthcare access indices) were evaluated with cumulative tests/cases/deaths, while time dependent variables (i.e. changes in non pharmaceutical interventions) were evaluated with daily rates and cumulative rates. Line plots and parallel coordinate plots were primarily used to evaluate any correlations.
 
 # Metrics Over Time
 
-### Testing
-
-#### Number of Tests
+## Testing
 ```{r testing}
 newtests <- ggplot(reduced, aes(x = date, y = tests_new_per_thousand, group=country)) + 
   geom_line(aes(color=country)) + xlab("Date") + 
@@ -134,8 +131,7 @@ print(newtests)
 
 ```
 
-#### Test Positivity Rates Over Time
-```{r ctpr, warning=FALSE, echo=FALSE}
+```{r ctpr, warning=FALSE, echo=TRUE}
 # Plot 1: Line graph to visualize/compare daily TPR over time
 ctpr <- ggplot(reduced, aes(x = date, y = cumulative.tpr, group=country)) + 
   geom_line(aes(color=country)) + xlab("Date") + 
@@ -146,7 +142,7 @@ ctpr <- ggplot(reduced, aes(x = date, y = cumulative.tpr, group=country)) +
 print(ctpr)
 ```
 
-```{r dtpr}
+```{r dtpr, , echo=TRUE}
 dtpr <- ggplot(reduced, aes(x = date, y = daily.tpr, group=country)) + 
   geom_line(aes(color=country)) + xlab("Date") + 
   ylab("Daily Test Positivity Rate (%)") +
@@ -157,8 +153,8 @@ print(dtpr)
 ```
 
 
-#### Number of Cases
-```{r cases}
+## Number of Cases
+```{r cases, echo=TRUE}
 newcases <- ggplot(reduced, aes(x = date, y = cases_new_per_million, group=country)) + 
   geom_line(aes(color=country)) + xlab("Date") + 
   ylab("New Cases Per Million") +
@@ -168,8 +164,9 @@ newcases <- ggplot(reduced, aes(x = date, y = cases_new_per_million, group=count
 print(newcases)
 ```
 
-#### Number of Deaths
-```{r deaths}
+## Number of Deaths
+
+```{r deaths, echo=TRUE}
 newdeaths <- ggplot(reduced, aes(x = date, y = deaths_new_per_million, group=country)) + 
   geom_line(aes(color=country)) + xlab("Date") + 
   ylab("New Deaths Per Million") +
@@ -179,10 +176,22 @@ newdeaths <- ggplot(reduced, aes(x = date, y = deaths_new_per_million, group=cou
 print(newdeaths)
 ```
 
+## Country Characteristics
+
+```{r population density, echo=TRUE}
+pop.den <- ggplot(reduced, aes(x=population_density,y=cases_total_per_million))+ 
+  geom_point(alpha=0.5) +
+  geom_smooth(method = "lm") +
+  xlab("Population Density (people/ square km)") + ylab("Total cases/million people") + 
+  ggtitle("Population density and total cases/million people") +
+  theme(plot.title = element_text(hjust = 0.5))
+print(pop.den)
+```
 
 ## Non Pharmaceutical Interventions
 ##### Overal Government Stringency Score
-```{r NPI, echo=FALSE}
+Overall score is composed of: school closings, workplace closings, cancellation of public events, restrictions on gatherings (by size), public transit closures, stay at home restrictions,internal movement restrictions, international travel controls, public information. 
+```{r overall stringency score, echo=TRUE}
 npi <- ggplot(reduced, aes(x= npi_stringency_index, y=cases_new_per_million, 
                       color=country))+ 
   geom_boxplot()+
@@ -194,7 +203,9 @@ print(npi)
 ```
 
 ### Interventions within Stringency Index
-```{r NPI interventions}
+No clear relationship between any specific measures and number of new cases per million. 
+```{r NP interventions, echo=TRUE}
+#Tried to see the effect of new deaths/million, new cases/million, and daily tpr but didn't see any trend
 npi_int <- ggparcoord(reduced, columns = c(22:29, 35, 36, 40),
                   groupColumn = "cases_new_per_million", scale="uniminmax", alphaLines=0.1) +
   xlab("NPI Category") + ylab("Value (scaled between 0 and 1") + 
@@ -212,7 +223,7 @@ Intensity of mask policy within region.
 
 3 - Mandatory everywhere or universal usage
 
-```{r masks, echo=FALSE}
+```{r masks, echo=TRUE}
 mask <- ggplot(reduced, aes(x=npi_masks, y=cumulative.tpr))+ 
   geom_boxplot()+
   xlab("Mask Policy") + ylab("Cumulative Test Positivity Rate") + 
@@ -224,7 +235,8 @@ print(mask)
 
 ## Disease Burden
 Evaluating the effects of prevalence of diabetes (% of population), smoking (% of group), and cardiovascular deaths (per 1000 people) on the cumulative test positivity rate. 
-```{r disease}
+
+```{r disease, echo=TRUE}
 # Disease burden factors and cTPR
 db <- ggparcoord(reduced, columns = 12:15,
                   groupColumn = "cumulative.tpr", scale="uniminmax", alphaLines=0.1) +
@@ -233,11 +245,16 @@ db <- ggparcoord(reduced, columns = 12:15,
 print(db)
 ```
 
-
-
 ## Mobility Measures
+
 Mobility Trends in % change relative to baseline, from Google Mobility Reports. 
-```{r mobility, warning=FALSE, echo=FALSE}
+
+* Retail: restaurants, cafes, shopping centers, theme parks, museums, libraries, and movie theaters.
+* Grocery/Pharmacy: grocery markets, food warehouses, farmers markets, specialty food shops, drug stores, and  pharmacies
+* Parks: national parks, public beaches, marinas, dog parks, plazas, and public gardens
+* Transit: public transport hubs such as subway, bus, and train stations.
+
+```{r mobility, warning=FALSE, echo=TRUE}
 pcp <- ggparcoord(reduced, columns = 64:72,
                   groupColumn = "cases_total_per_million", scale="uniminmax", alphaLines=0.1) +
   xlab("mobility factors") + ylab("Value") + 
@@ -248,7 +265,9 @@ print(pcp)
 
 
 ## Global Health Security Index
-```{r ghs index}
+Lower overall GHSindex scores appear to be corellated with lower daily and cumulative tpr. 
+
+```{r ghs index, echo=TRUE}
 
 # Plot 1: Line graph to visualize/compare daily TPR over time
 ghs <- ggparcoord(reduced, columns = c(19, 20, 45, 47, 51),
@@ -261,7 +280,7 @@ print(ghs)
 ```
 
 ### GHSI Categories
-```{r ghs categories}
+```{r ghs categories, echo=TRUE}
 
 # Plot 1: Line graph to visualize/compare daily TPR over time
 ghs <- ggparcoord(reduced, columns = c(97, 154, 191, 234, 273, 312),
@@ -272,12 +291,10 @@ ghs <- ggparcoord(reduced, columns = c(97, 154, 191, 234, 273, 312),
 print(ghs)
 ```
 
+## Healthcare Access
+Assessing relationship between healthcare access indices (using the global health security index) and deaths per million. 
 
-
-
-### Healthcare Access
-Assessing relationship between healthcare access (measured by ghs indices) and deaths
-```{r}
+```{r healthcare access, echo=TRUE}
 ghs <- ggparcoord(reduced, columns = c(237, 241, 242, 250, 252),
                   groupColumn = "deaths_total_per_million", scale="uniminmax", alphaLines=0.1) +
   xlab("Healthcare Access Indicators") + ylab("Scaled Values") + ggtitle("Deaths per million vs healthcare access measures") +
@@ -286,40 +303,41 @@ ghs <- ggparcoord(reduced, columns = c(237, 241, 242, 250, 252),
 print(ghs)
 ```
  
+ 
+# Weather Variables
 
+## Humidity
 
-## Weather Variables
-#### Humidity
-```{r}
+```{r humidity , echo=TRUE}
 # Humidity and total cases (upward trend)
 hum <- ggplot(reduced, aes(x=weather_humidity_mean,y=cases_total_per_million))+ 
   geom_point(alpha=0.5) +
   geom_smooth(method = "lm") +
-  xlab("Mean humidity") + ylab("Total cases/million people") + 
+  xlab("Mean humidity (kg water vapour/kg air)") + ylab("Total cases/million people") + 
   ggtitle("Mean humidity and total cases/million people") +
   theme(plot.title = element_text(hjust = 0.5))
 print(hum)
 ```
 
-#### Temperature Speed
+## Temperature
 
-```{r}
+```{r temperature, echo=TRUE}
 temp <- ggplot(reduced, aes(x=weather_temperature_mean,y= cases_new_per_million))+ 
   geom_point(alpha=0.5) +
   geom_smooth(method = "lm") +
-  xlab("Mean temperature") + ylab("New cases/million people") + 
+  xlab("Mean temperature (°C) ") + ylab("New cases/million people") + 
   ggtitle("Mean temperature and new cases/million people") +
   theme(plot.title = element_text(hjust = 0.5))
 print(temp)
 ```
 
-#### Wind Speed
+## Wind
 
-```{r}
+```{r wind, echo=TRUE}
 wind <- ggplot(reduced, aes(x=weather_wind_speed_mean, y= cases_new_per_million))+ 
   geom_point(alpha=0.5) +
   geom_smooth(method = "lm") +
-  xlab("Mean wind speed") + ylab("New cases/million people") + 
+  xlab("Mean wind speed (m/s)") + ylab("New cases/million people") + 
   ggtitle("Mean wind speed and new cases/million people") +
   theme(plot.title = element_text(hjust = 0.5))
 print(wind)
