@@ -115,12 +115,15 @@ Potential Options for Inclusion/Exclusion Criteria:
 * only WHO member states 
 * completeness of dataset (must have test data for X% of sample period)
 
+
+Below, independent variables that were not time dependent (health indices) 
+
 # Metrics Over Time
 
 ### Testing
 
 #### Number of Tests
-```{r}
+```{r testing}
 newtests <- ggplot(reduced, aes(x = date, y = tests_new_per_thousand, group=country)) + 
   geom_line(aes(color=country)) + xlab("Date") + 
   ylab("New Tests Per Thousand") +
@@ -132,7 +135,7 @@ print(newtests)
 ```
 
 #### Test Positivity Rates Over Time
-```{r, warning=FALSE, echo=FALSE}
+```{r ctpr, warning=FALSE, echo=FALSE}
 # Plot 1: Line graph to visualize/compare daily TPR over time
 ctpr <- ggplot(reduced, aes(x = date, y = cumulative.tpr, group=country)) + 
   geom_line(aes(color=country)) + xlab("Date") + 
@@ -143,7 +146,7 @@ ctpr <- ggplot(reduced, aes(x = date, y = cumulative.tpr, group=country)) +
 print(ctpr)
 ```
 
-```{r}
+```{r dtpr}
 dtpr <- ggplot(reduced, aes(x = date, y = daily.tpr, group=country)) + 
   geom_line(aes(color=country)) + xlab("Date") + 
   ylab("Daily Test Positivity Rate (%)") +
@@ -155,7 +158,7 @@ print(dtpr)
 
 
 #### Number of Cases
-```{r}
+```{r cases}
 newcases <- ggplot(reduced, aes(x = date, y = cases_new_per_million, group=country)) + 
   geom_line(aes(color=country)) + xlab("Date") + 
   ylab("New Cases Per Million") +
@@ -166,7 +169,7 @@ print(newcases)
 ```
 
 #### Number of Deaths
-```{r}
+```{r deaths}
 newdeaths <- ggplot(reduced, aes(x = date, y = deaths_new_per_million, group=country)) + 
   geom_line(aes(color=country)) + xlab("Date") + 
   ylab("New Deaths Per Million") +
@@ -178,7 +181,7 @@ print(newdeaths)
 
 
 ## Non Pharmaceutical Interventions
-##### Government Stringency Index
+##### Overal Government Stringency Score
 ```{r NPI, echo=FALSE}
 npi <- ggplot(reduced, aes(x= npi_stringency_index, y=cases_new_per_million, 
                       color=country))+ 
@@ -191,7 +194,7 @@ print(npi)
 ```
 
 ### Interventions within Stringency Index
-```{r}
+```{r NPI interventions}
 npi_int <- ggparcoord(reduced, columns = c(22:29, 35, 36, 40),
                   groupColumn = "cases_new_per_million", scale="uniminmax", alphaLines=0.1) +
   xlab("NPI Category") + ylab("Value (scaled between 0 and 1") + 
@@ -200,32 +203,14 @@ npi_int <- ggparcoord(reduced, columns = c(22:29, 35, 36, 40),
 print(npi_int)
 ```
 
-
-
-### Masks
-```{r gov index, echo=FALSE}
-mask <- ggplot(reduced, aes(x=npi_stringency_index, y=cases_total_per_million))+ 
-  geom_point()+
-  geom_smooth(method=lm)+
-  xlab("Government Stringency Index") + ylab("Total Cases Per Million") + 
-  ggtitle("Government Stringency Index and Total Cases Per Million") +
-  theme(plot.title = element_text(hjust = 0.5))
-print(mask)
-
-```
-
-
-### Disease Burden
-```{r}
-# Disease burden factors and cTPR
-db <- ggparcoord(reduced, columns = 12:15,
-                  groupColumn = "cumulative.tpr", scale="uniminmax", alphaLines=0.1) +
-  xlab("Disease burden") + ylab("Value") + ggtitle("Disease burden and cumulative TPR") +
-  theme_minimal()+ theme(plot.title = element_text(hjust = 0.5)) + theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
-print(db)
-```
-
 ### Mask Policy 
+Intensity of mask policy within region.
+
+1 - General recommendation
+
+2 - Mandatory in specific regions of country or specific places (public transport, inside shops)
+
+3 - Mandatory everywhere or universal usage
 
 ```{r masks, echo=FALSE}
 mask <- ggplot(reduced, aes(x=npi_masks, y=cumulative.tpr))+ 
@@ -235,18 +220,24 @@ mask <- ggplot(reduced, aes(x=npi_masks, y=cumulative.tpr))+
   theme(plot.title = element_text(hjust = 0.5))
 print(mask)
 ```
-#### Parallel Coordinate plot of different NPIs vs Cases
-```{r, warning=FALSE, echo=FALSE}
-npi <- ggparcoord(reduced, columns = c(22:29, 35, 36, 40),
-                  groupColumn = "cases_total_per_million", scale="uniminmax", alphaLines=0.1) +
-  xlab("NPI Category") + ylab("Value (scaled between 0 and 1") + 
-  ggtitle("Effect of NPIs on Total Cases/Million") +
-  theme_minimal()+ theme(plot.title = element_text(hjust = 0.5)) + theme(axis.text.x = element_text(angle = 45, hjust = 1))
-print(npi)
+
+
+## Disease Burden
+Evaluating the effects of prevalence of diabetes (% of population), smoking (% of group), and cardiovascular deaths (per 1000 people) on the cumulative test positivity rate. 
+```{r disease}
+# Disease burden factors and cTPR
+db <- ggparcoord(reduced, columns = 12:15,
+                  groupColumn = "cumulative.tpr", scale="uniminmax", alphaLines=0.1) +
+  xlab("Disease burden") + ylab("Value") + ggtitle("Disease burden and cumulative TPR") +
+  theme_minimal()+ theme(plot.title = element_text(hjust = 0.5)) + theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
+print(db)
 ```
 
+
+
 ## Mobility Measures
-```{r, warning=FALSE, echo=FALSE}
+Mobility Trends in % change relative to baseline, from Google Mobility Reports. 
+```{r mobility, warning=FALSE, echo=FALSE}
 pcp <- ggparcoord(reduced, columns = 64:72,
                   groupColumn = "cases_total_per_million", scale="uniminmax", alphaLines=0.1) +
   xlab("mobility factors") + ylab("Value") + 
@@ -257,11 +248,20 @@ print(pcp)
 
 
 ## Global Health Security Index
+```{r ghs index}
 
-### Overall GHSI score
+# Plot 1: Line graph to visualize/compare daily TPR over time
+ghs <- ggparcoord(reduced, columns = c(19, 20, 45, 47, 51),
+                  groupColumn = "OVERALL_SCORE", scale="uniminmax", alphaLines=0.1) +
+  xlab("COVID-19 Data") + ylab("Scaled Values") + ggtitle("GHS Index vs outbreak/testing indicators") +
+  labs(col = c("1","2")) +
+  theme_minimal()+ theme(plot.title = element_text(hjust = 0.5)) + theme(axis.text.x = element_text(angle = 10, hjust = 0.5)) 
+print(ghs)
+
+```
 
 ### GHSI Categories
-```{r ghs index}
+```{r ghs categories}
 
 # Plot 1: Line graph to visualize/compare daily TPR over time
 ghs <- ggparcoord(reduced, columns = c(97, 154, 191, 234, 273, 312),
@@ -271,6 +271,21 @@ ghs <- ggparcoord(reduced, columns = c(97, 154, 191, 234, 273, 312),
   theme_minimal()+ theme(plot.title = element_text(hjust = 0.5)) 
 print(ghs)
 ```
+
+
+
+
+### Healthcare Access
+Assessing relationship between healthcare access (measured by ghs indices) and deaths
+```{r}
+ghs <- ggparcoord(reduced, columns = c(237, 241, 242, 250, 252),
+                  groupColumn = "deaths_total_per_million", scale="uniminmax", alphaLines=0.1) +
+  xlab("Healthcare Access Indicators") + ylab("Scaled Values") + ggtitle("Deaths per million vs healthcare access measures") +
+  labs(col = c("1","2")) +
+  theme_minimal()+ theme(plot.title = element_text(hjust = 0.5)) + theme(axis.text.x = element_text(angle = 15, hjust = 0.5)) + scale_x_discrete(labels = function(x) str_wrap(x, width = 5 ))
+print(ghs)
+```
+ 
 
 
 ## Weather Variables
@@ -285,23 +300,27 @@ hum <- ggplot(reduced, aes(x=weather_humidity_mean,y=cases_total_per_million))+
   theme(plot.title = element_text(hjust = 0.5))
 print(hum)
 ```
+
 #### Temperature Speed
+
 ```{r}
-temp <- ggplot(reduced, aes(x=weather_temperature_mean,y= cases_total_per_million))+ 
+temp <- ggplot(reduced, aes(x=weather_temperature_mean,y= cases_new_per_million))+ 
   geom_point(alpha=0.5) +
   geom_smooth(method = "lm") +
-  xlab("Mean temperature") + ylab("Total cases/million people") + 
-  ggtitle("Mean temperature and total cases/million people") +
+  xlab("Mean temperature") + ylab("New cases/million people") + 
+  ggtitle("Mean temperature and new cases/million people") +
   theme(plot.title = element_text(hjust = 0.5))
 print(temp)
 ```
+
 #### Wind Speed
+
 ```{r}
-wind <- ggplot(reduced, aes(x=weather_wind_speed_mean, y= cases_total_per_million))+ 
+wind <- ggplot(reduced, aes(x=weather_wind_speed_mean, y= cases_new_per_million))+ 
   geom_point(alpha=0.5) +
   geom_smooth(method = "lm") +
-  xlab("Mean wind speed") + ylab("Total cases/million people") + 
-  ggtitle("Mean wind speed and total cases/million people") +
+  xlab("Mean wind speed") + ylab("New cases/million people") + 
+  ggtitle("Mean wind speed and new cases/million people") +
   theme(plot.title = element_text(hjust = 0.5))
 print(wind)
 ```
