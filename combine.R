@@ -14,14 +14,12 @@ source("makestuff/makeRfuns.R")
 #GLOBAL DATASETS
 #####################
 #Our world in data daily test positivity rate smoothed over 7 days
-owid <- read.csv(matchFile("owid.csv"))
+owid <- read.csv("https://github.com/owid/covid-19-data/raw/master/public/data/owid-covid-data.csv")
 
 owid <- (owid %>% 
-        mutate(location = as.factor(location), continent = as.factor(continent), iso_code = as.factor(iso_code), date = (as.Date(date, format= "%Y-%m-%d")),tests_units = as.factor(tests_units)) %>% 
-        mutate(cumulative.tpr = (total_cases/total_tests)*100, daily.tpr = (new_cases/new_tests)*100) %>% 
-        filter(!is.na(daily.tpr)) %>% 
-        select (!(total_cases:stringency_index)) %>%         
-        rename(country = location, ISO = iso_code))
+                 mutate(location = as.factor(location), continent = as.factor(continent), iso_code = as.factor(iso_code), date = (as.Date(date, format= "%Y-%m-%d")),tests_units = as.factor(tests_units)) %>% 
+                 mutate(cumulative.tpr = (total_cases/total_tests)*100, daily.tpr = (new_cases/new_tests)*100) %>% 
+                 rename(country = location, ISO = iso_code, daily.tpr.7dayrolling = positive_rate))
         
 summary(owid)
 
@@ -29,11 +27,12 @@ summary(owid)
 #DELVE (Data Evaluation and Learning for Viral Epidemics) Dataset 
 delve = read.csv(matchFile("delve.csv"))
 delve <- (delve %>%
-            mutate(DATE = as.Date(DATE, format= "%Y-%m-%d"), country_name = as.factor(country_name), ISO = as.factor(ISO)) %>%
-            mutate(across(c(starts_with("npi") & !(npi_fiscal_measures|npi_international_support|npi_healthcare_investment|npi_vaccine_investment|npi_stringency_index)), as.factor)) %>% 
-            rename (date = DATE, country = country_name))
+                  mutate(DATE = as.Date(DATE, format= "%Y-%m-%d"), country_name = as.factor(country_name), ISO = as.factor(ISO)) %>%
+                  mutate(across(c(starts_with("npi") & !(npi_fiscal_measures|npi_international_support|npi_healthcare_investment|npi_vaccine_investment|npi_stringency_index)), as.factor)) %>% 
+                  select (!(cases_total:stats_gdp_per_capita)) %>%
+                  rename (date = DATE, country = country_name))
           
-#summary(delve)
+summary(delve)
 
 
 
@@ -44,12 +43,14 @@ Rtcountry <- (Rt %>%
                       filter(!grepl ("^US-", Code), !grepl ("^AU-", Code), !grepl ("^CN-", Code)) %>% 
                       mutate(country = countrycode(Code, "iso2c","country.name"), country =as.factor(country)) %>% #converting country codes to country names. States not converted 
                       rename(date=Date))
-#summary(Rtcountry)
+summary(Rtcountry)
 
 #Open Data Barometer (Openness of data measurement)
 odb <- read.csv(matchFile("odb.csv")) 
-odb <- odb %>% select (ISO3:ODB.Scaled) %>% rename(country = Country, ISO = ISO3)
-#summary(odb)
+odb <- (odb %>% 
+                select (ISO3:ODB.Scaled) %>%
+                rename(country = Country, ISO = ISO3, odb_readiness = Readiness, odb_implementation = Implementation, odb_impact = Impact))
+summary(odb)
 
 #global health security index (from https://www.ghsindex.org/wp-content/uploads/2019/10/Global-Health-Security-Index-2019-Final-October-2019.zip) *will update with better link once .xlsm data import figured out
 ghsrange <- "N4:OP267"
@@ -71,43 +72,44 @@ GHSI <- (GHSI %>%
                  mutate_at(vars(-country), as.numeric))
 
 # Putting together global Dataset
-global <- full_join(owid, delve, by = c("country", "date"))
+global <- full_join(owid, delve, by = c("country", "date", "ISO"))
 global <- full_join(global,Rtcountry, by = c("country", "date")) 
-global <- full_join (global, odb, by = "country", "ISO")
-global <- full_join(global, GHSI, by = "country")
+global <- full_join (global, odb, by = c("country", "ISO"))
+global <- full_join(global, GHSI, by = c("country"))
 
 
 global <- (global %>% 
-                   mutate(ISO = as.factor(ISO), country = as.factor(country)))
+                   mutate(ISO = as.factor(ISO), country = as.factor(country), stringency_index = NULL))
+                   
 
 
 summary(global)
 
 
-# # US DATA 
+# # US DATA
 # ############
 # 
 # #Covid-Tracking project
 # USstatedata <- read.csv(matchFile("USstatedata.csv"))
-# USstatedata <- (USstatedata %>% 
-#                          select(-c(hash, lastUpdateEt, dateModified , checkTimeEt, dateChecked, dateModified, hospitalized, negativeIncrease, posNeg, fips, commercialScore, negativeRegularScore, negativeScore, positiveScore, score, grade)) %>% 
-#                          mutate(state = as.factor(state), daily.tpr = (positive/totalTestResults)*100, cumulative.tpr = cumsum(as.numeric(positive))/cumsum(as.numeric(totalTestResults))) %>% 
-#                          mutate(date = as.character(date)) %>% 
+# USstatedata <- (USstatedata %>%
+#                          select(-c(hash, lastUpdateEt, dateModified , checkTimeEt, dateChecked, dateModified, hospitalized, negativeIncrease, posNeg, fips, commercialScore, negativeRegularScore, negativeScore, positiveScore, score, grade)) %>%
+#                          mutate(state = as.factor(state), daily.tpr = (positive/totalTestResults)*100, cumulative.tpr = cumsum(as.numeric(positive))/cumsum(as.numeric(totalTestResults))) %>%
+#                          mutate(date = as.character(date)) %>%
 #                          mutate(date = as.Date(date, format("%Y%m%d"))))
 # 
 # #Effective Reproductive Number Estimates from from http://epidemicforecasting.org/
 # Rtstate <-  (Rt %>%
 #                      mutate(Date = as.Date(Date, format= "%Y-%m-%d"), X = NULL) %>%
 #                      filter(grepl ("^US-", Code)) %>%
-#                      separate(Code, c("country","state")) %>% 
-#                      mutate (state = as.factor(state), country = as.factor(country)) %>% 
+#                      separate(Code, c("country","state")) %>%
+#                      mutate (state = as.factor(state), country = as.factor(country)) %>%
 #                      rename (date = Date))
 # summary(Rtstate)
 # 
-# #US mobility 
+# #US mobility
 # US_mobility <- read.csv(matchFile("USmobility.csv"))
-# US_mobility <- (US_mobility %>% 
-#         filter(grepl("^US-",iso_3166_2_code)) %>% 
+# US_mobility <- (US_mobility %>%
+#         filter(grepl("^US-",iso_3166_2_code)) %>%
 #                        separate(iso_3166_2_code, c("country", "state")))
 # str(US_mobility)
 # # Putting Together US Dataset
@@ -116,23 +118,23 @@ summary(global)
 # 
 # #Canada Data
 # ###############
-# #Government of Canada (GOC) COVID-19 Dataset 
+# #Government of Canada (GOC) COVID-19 Dataset
 # goc = read.csv("https://health-infobase.canada.ca/src/data/covidLive/covid19.csv")
 # goc_metadata = read.csv("https://health-infobase.canada.ca/src/data/covidLive/covid19-data-dictionary.csv")
 # 
 #  goc <- (goc %>%
-#                  mutate (pruid = NULL,prnameFR = NULL) %>% 
+#                  mutate (pruid = NULL,prnameFR = NULL) %>%
 #                  mutate(date = as.Date(date, format= "%d-%m-%Y")) %>%
 #                  mutate (prname = as.factor(prname)) %>%
 #                  mutate (cumulative.tpr = (numconf/numtested)*100))
-#  
+# 
 # summary(goc)
 # #  Create Subset to for only National Canada Data
-# canada <- full_join(goc, delve, by = c("prname" = "country","date"))
+# canada <- full_join(goc, delve, by = c("prname" = "country","date", "stringency_index" = "npi_stringency_index"))
 # canada <- full_join(canada, Rtcountry,by = c("prname" = "country"))
-# canada <- (canada %>% 
+# canada <- (canada %>%
 #                       filter(grepl ("Canada", prname)) %>%
-#                       mutate(npi_masks = as.factor(npi_masks)) %>% 
-#                       mutate(npi_testing_policy = as.factor(npi_testing_policy)) %>% 
+#                       mutate(npi_masks = as.factor(npi_masks)) %>%
+#                       mutate(npi_testing_policy = as.factor(npi_testing_policy)) %>%
 #                       mutate(Code = NULL, X = NULL, Date = NULL))
 # summary(canada)
