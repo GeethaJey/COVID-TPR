@@ -65,19 +65,21 @@ ctpr <- ggplot(reduced, aes(x = date, y = cumulative.tpr, group=country)) +
   ylab("Cumulative Test Positivity Rate (%)") +
   ggtitle("Cumulative TPR Over Time") + 
   labs(color="Country") +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  geom_dl(aes(label = country), method = list(dl.combine("last.bumpup")))
 print(ctpr)
 ```
 
 ![](data.vis_files/figure-gfm/ctpr-1.png)<!-- -->
 
 ``` r
-dtpr <- ggplot(reduced, aes(x = date, y = daily.tpr, group=country)) + 
+dtpr <- ggplot(reduced, aes(x = date, y = daily.tpr.7dayrolling, group=country)) + 
   geom_line(aes(color=country)) + xlab("Date") + 
-  ylab("Daily Test Positivity Rate (%)") +
-  ggtitle("Daily TPR Over Time") + 
+  ylab("Daily Test Positivity Rate (Rolling 7-day average %)") +
+  ggtitle("Daily Test Positivity Rate Over Time") + 
   labs(color="Country") +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_dl(aes(label = country), method = list(dl.combine("last.bumpup")))
 print(dtpr)
 ```
 
@@ -86,12 +88,13 @@ print(dtpr)
 ## Number of Cases
 
 ``` r
-newcases <- ggplot(reduced, aes(x = date, y = cases_new_per_million, group=country)) + 
+newcases <- ggplot(reduced, aes(x = date, y = new_cases_per_million, group=country)) + 
   geom_line(aes(color=country)) + xlab("Date") + 
   ylab("New Cases Per Million") +
   ggtitle("Number of New Cases per Million People") + 
   labs(color="Country") +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5)) 
+  
 print(newcases)
 ```
 
@@ -100,7 +103,7 @@ print(newcases)
 ## Number of Deaths
 
 ``` r
-newdeaths <- ggplot(reduced, aes(x = date, y = deaths_new_per_million, group=country)) + 
+newdeaths <- ggplot(reduced, aes(x = date, y = new_deaths_per_million, group=country)) + 
   geom_line(aes(color=country)) + xlab("Date") + 
   ylab("New Deaths Per Million") +
   ggtitle("Number of New Deaths per Million People") + 
@@ -114,7 +117,7 @@ print(newdeaths)
 ## Country Characteristics
 
 ``` r
-pop.den <- ggplot(reduced, aes(x=population_density,y=cases_total_per_million))+ 
+pop.den <- ggplot(reduced, aes(x=population_density,y=total_cases_per_million))+ 
   geom_point(alpha=0.5) +
   geom_smooth(method = "lm") +
   xlab("Population Density (people/ square km)") + ylab("Total cases/million people") + 
@@ -135,7 +138,7 @@ public transit closures, stay at home restrictions,internal movement
 restrictions, international travel controls, public information.
 
 ``` r
-npi <- ggplot(reduced, aes(x= npi_stringency_index, y=cases_new_per_million, 
+npi <- ggplot(reduced, aes(x= npi_stringency_index, y=new_cases_per_million, 
                       color=country))+ 
   geom_boxplot()+
   labs(col="Country")+
@@ -155,7 +158,7 @@ cases per million.
 ``` r
 #Tried to see the effect of new deaths/million, new cases/million, and daily tpr but didn't see any trend
 npi_int <- ggparcoord(reduced, columns = c(22:29, 35, 36, 40),
-                  groupColumn = "cases_new_per_million", scale="uniminmax", alphaLines=0.1) +
+                  groupColumn = "new_cases_per_million", scale="uniminmax", alphaLines=0.1) +
   xlab("NPI Category") + ylab("Value (scaled between 0 and 1") + 
   ggtitle("Effect of NPIs on New Cases/Million") +
   theme_minimal()+ theme(plot.title = element_text(hjust = 0.5)) + theme(axis.text.x = element_text(angle = 45, hjust = 1))
@@ -221,7 +224,7 @@ Reports.
 
 ``` r
 pcp <- ggparcoord(reduced, columns = 64:72,
-                  groupColumn = "cases_total_per_million", scale="uniminmax", alphaLines=0.1) +
+                  groupColumn = "total_cases_per_million", scale="uniminmax", alphaLines=0.1) +
   xlab("mobility factors") + ylab("Value") + 
   ggtitle("Mobility factors and total cases per million people") +
   theme(plot.title = element_text(hjust = 0.5)) + theme(axis.text.x = element_text(angle = 45, hjust = 1))
@@ -268,7 +271,7 @@ global health security index) and deaths per million.
 
 ``` r
 ghs <- ggparcoord(reduced, columns = c(237, 241, 242, 250, 252),
-                  groupColumn = "deaths_total_per_million", scale="uniminmax", alphaLines=0.1) +
+                  groupColumn = "total_deaths_per_million", scale="uniminmax", alphaLines=0.1) +
   xlab("Healthcare Access Indicators") + ylab("Scaled Values") + ggtitle("Deaths per million vs healthcare access measures") +
   labs(col = c("1","2")) +
   theme_minimal()+ theme(plot.title = element_text(hjust = 0.5)) + theme(axis.text.x = element_text(angle = 15, hjust = 0.5)) + scale_x_discrete(labels = function(x) str_wrap(x, width = 5 ))
@@ -283,7 +286,7 @@ print(ghs)
 
 ``` r
 # Humidity and total cases (upward trend)
-hum <- ggplot(reduced, aes(x=weather_humidity_mean,y=cases_total_per_million))+ 
+hum <- ggplot(reduced, aes(x=weather_humidity_mean,y=total_cases_per_million))+ 
   geom_point(alpha=0.5) +
   geom_smooth(method = "lm") +
   xlab("Mean humidity (kg water vapour/kg air)") + ylab("Total cases/million people") + 
@@ -297,7 +300,7 @@ print(hum)
 ## Temperature
 
 ``` r
-temp <- ggplot(reduced, aes(x=weather_temperature_mean,y= cases_new_per_million))+ 
+temp <- ggplot(reduced, aes(x=weather_temperature_mean,y= new_cases_per_million))+ 
   geom_point(alpha=0.5) +
   geom_smooth(method = "lm") +
   xlab("Mean temperature (°C) ") + ylab("New cases/million people") + 
@@ -311,7 +314,7 @@ print(temp)
 ## Wind
 
 ``` r
-wind <- ggplot(reduced, aes(x=weather_wind_speed_mean, y= cases_new_per_million))+ 
+wind <- ggplot(reduced, aes(x=weather_wind_speed_mean, y= new_cases_per_million))+ 
   geom_point(alpha=0.5) +
   geom_smooth(method = "lm") +
   xlab("Mean wind speed (m/s)") + ylab("New cases/million people") + 

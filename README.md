@@ -1,19 +1,16 @@
 # COVID-TPR
 
-Potential Research Questions
-* How can we interpret the test positivity rate? How does this interpretation change based on the characteristics of the testing, demographics and interventions within a region?
-    * How can we interpret the TPR in countries with inconsistent general outpatient attendance, testing practices, and reporting completeness (based on WHO suggestions for when to use TPR instead of incidence rates to assess transmission)? 
-* How should the test positivity rate of a region be used inform decisions regarding testing and interventions? 
-* How did the use of TPR as a key metric used for re-opening guidelines affect testing methods and population selected for testing? 
+[Summary Document](https://docs.google.com/document/d/1dIQwkLadrKXBZ6SpdmhyYpPNHPj2XnnAY5prKBrTui8/edit?usp=sharing)
 
-Original Questions
-* How we interpret test-positivity rates?
-* What factors about _testing_ policy affect this interpretation?
+Research Questions
+* How can we interpret the test positivity rate? What factors affect this interpretation? 
 
-Geetha's Questions
-* How does intervention policy affect COVID spread?
-* How well did the [Global Health Security Index](https://www.ghsindex.org/) predict pandemic response? What factors of the index were most important to successful containment? 
-    *South Korea, Vietnam and Germany were highlighted in an Exemplars of Global Health report, with an analysis of each country's methods of prevention, detection, containment and treatment. Looking at which factors of the Global Health Security Index were most important to success would be interesting, as Vietnam and Germany received 44/100 and 66/100 respectively, but did a much better job than higher scoring countries (e.g. the US, UK).
+** The test positivity rate is being used to draw conclusions regarding whether a region is conducting sufficient testing, how well the outbreak is being managed, and serves as a key factor in deciding whether to change intervention measures (i.e. loosen lockdown measures).  How should the interpretation in a region with consistent testing and reporting measures differ from one with inconsistent measures or limited health surveillance? 
+
+* Which factors of the[Global Health Security Index](https://www.ghsindex.org/) were most important in a region's preparedness and response to an outbreak? 
+
+** With the US ranked 1st out of all 195 countries on the index, but failing to contain COVID-19 outbreaks in many states, the overall scores do not appear to be predictive of a region's performance.  However, within the category scores, the US ranked quite low in health systems, healthcare access, clinic, hospital, and community care capacity (290 hospital beds per 100,000), public confidence in government (> 25%), and ranked 59th out of 195 on political and security risks and socio-economic resilience. Regions such as South Korea, Vietnam and Germany did quite well but were ranked significantly lower. 
+
 
 # Data Sources
 
@@ -28,4 +25,5 @@ Geetha's Questions
 * [World Bank COVID-19 relevant Datasets (economic data, health and nutrition, population statistics)](https://datacatalog.worldbank.org/search?search_api_views_fulltext_op=AND&f%5B0%5D=field_collection_field%3A2026)
 * [EpidemicForecasting R Estimates by country](http://epidemicforecasting.org/country-rt-estimates)
 * [Kaiser Family Foundation US state level COVID-19 data](https://www.kff.org/statedata/)
+
 

@@ -4,7 +4,7 @@ author: "Geetha"
 output: github_document
 ---
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE, fig.width = 12,fig.height = 6)
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE, fig.width = 12,fig.height = 8)
                      
 library(ggplot2)
 library(dplyr)
@@ -135,7 +135,7 @@ newtests <- ggplot(reduced, aes(x = date, y = new_tests_per_thousand, group=coun
   geom_line(aes(color=country)) + xlab("Date") + 
   ylab("New Tests Per Thousand") +
   ggtitle("New Tests (per thousand people) over Time") + 
-  labs(color="Country") + geom_dl(aes(label = country), method = list(dl.combine("angled.endpoints")), cex = 0.8) +
+  labs(color="Country") + geom_dl(aes(label = country), method = list(dl.combine("last.bumpup")), cex = 0.8) +
   theme(plot.title = element_text(hjust = 0.5))
 print(newtests)
 
@@ -149,7 +149,7 @@ ctpr <- ggplot(reduced, aes(x = date, y = cumulative.tpr, group=country)) +
   ggtitle("Cumulative TPR Over Time") + 
   labs(color="Country") +
   theme(plot.title = element_text(hjust = 0.5)) + 
-  geom_dl(aes(label = country), method = list(dl.combine("last.polygons")))
+  geom_dl(aes(label = country), method = list(dl.combine("last.bumpup")))
 print(ctpr)
 ```
 
@@ -159,7 +159,8 @@ dtpr <- ggplot(reduced, aes(x = date, y = daily.tpr.7dayrolling, group=country))
   ylab("Daily Test Positivity Rate (Rolling 7-day average %)") +
   ggtitle("Daily Test Positivity Rate Over Time") + 
   labs(color="Country") +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_dl(aes(label = country), method = list(dl.combine("last.bumpup")))
 print(dtpr)
 ```
 
@@ -171,7 +172,7 @@ newcases <- ggplot(reduced, aes(x = date, y = new_cases_per_million, group=count
   ylab("New Cases Per Million") +
   ggtitle("Number of New Cases per Million People") + 
   labs(color="Country") +
-  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(plot.title = element_text(hjust = 0.5)) 
   
 print(newcases)
 ```
@@ -299,7 +300,9 @@ ghs <- ggparcoord(reduced, columns = c(97, 154, 191, 234, 273, 312),
                   groupColumn = "cumulative.tpr", scale="uniminmax", alphaLines=0.1) +
   xlab("GHS Indicator") + ylab("Scaled Indicator Value") + ggtitle("Cumulative TPR versus GHS") +
   labs(col = c("1","2")) +
-  theme_minimal()+ theme(plot.title = element_text(hjust = 0.5)) 
+  theme_minimal()+ 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(axis.text.x = element_text(angle = 10, hjust = 0.5)) 
 print(ghs)
 ```
 
