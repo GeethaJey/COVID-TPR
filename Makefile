@@ -13,6 +13,7 @@ vim_session:
 Sources += $(wildcard *.R *.md *.Rmd)
 
 ## Writeup.Rmd.html: Writeup.Rmd
+## data.vis.Rmd.html: data.vis.Rmd
 
 ######################################################################
 
