@@ -12,6 +12,7 @@ vim_session:
 
 Sources += $(wildcard *.R *.md *.Rmd)
 
+Ignore += *_files
 ## Writeup.Rmd.html: Writeup.Rmd
 ## data.vis.Rmd.html: data.vis.Rmd
 
@@ -62,6 +63,7 @@ USmobility.csv:
 
 update_ghs:
 	wget -O ghs.zip "https://www.ghsindex.org/wp-content/uploads/2019/10/Global-Health-Security-Index-2019-Final-October-2019.zip"
+Ignore += ghs.zip
 ghs.zip:
 	$(MAKE) update_ghs
 
